@@ -1,26 +1,180 @@
 @import "tailwindcss";
 
+/*
+  Colour works in two layers:
+
+  1. Palette — the only place raw colour values live. To re-theme the site,
+     change these.
+  2. Roles (in @theme below) — what each colour is used for. Components only
+     use role utilities (bg-page, text-fg-muted, bg-accent, from-shade/80 …),
+     never palette names or hex values.
+
+  When changing the palette, keep text roles at 4.5:1 contrast or more
+  against the background they sit on (noted per role below for the current
+  palette).
+*/
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --palette-light: #f2ece0; /* parchment */
+  --palette-light-deep: #e6dcc6; /* sand */
+  --palette-mid: #8a9a5b; /* sage olive */
+  --palette-dark: #23261a; /* olive ink */
+  --palette-accent: #c49a45; /* antique gold */
+
+  /* Tints derived from the palette for secondary text and hovers. */
+  --palette-light-muted: #cfc7b2; /* secondary text on dark */
+  --palette-dark-muted: #57553f; /* secondary text on light */
+  --palette-dark-soft: #2b2e1c; /* secondary text on mid */
+  --palette-light-deep-hover: #dcd0b6;
+  --palette-accent-hover: #d4ad5c;
+}
+
+/*
+  Focus rings need 3:1 against what is around them: dark ink on light and
+  tinted areas, accent on dark ones. Mark dark areas with data-tone="dark".
+*/
+:root {
+  --focus: var(--palette-dark);
+}
+[data-tone="dark"] {
+  --focus: var(--palette-accent);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Page: the default light background and its text. */
+  --color-page: var(--palette-light);
+  --color-fg: var(--palette-dark); /* 13:1 on page */
+  --color-fg-muted: var(--palette-dark-muted); /* 6.4:1 on page, 5.5:1 on surface */
+
+  /* Surface: cards sitting on the page. */
+  --color-surface: var(--palette-light-deep);
+  --color-surface-hover: var(--palette-light-deep-hover);
+
+  /* Tint: coloured sections, with dark text. */
+  --color-tint: var(--palette-mid);
+  --color-tint-fg: var(--palette-dark); /* 5.0:1 on tint */
+  --color-tint-fg-muted: var(--palette-dark-soft); /* 4.5:1 on tint */
+
+  /* Inverse: dark sections (footer) and text over shaded photos. */
+  --color-inverse: var(--palette-dark);
+  --color-inverse-fg: var(--palette-light); /* 13:1 on inverse */
+  --color-inverse-fg-muted: var(--palette-light-muted); /* 9.1:1 on inverse */
+
+  /* Shade: overlays that darken photos behind text. */
+  --color-shade: var(--palette-dark);
+
+  /* Accent: actions only (buttons). */
+  --color-accent: var(--palette-accent);
+  --color-accent-hover: var(--palette-accent-hover);
+  --color-on-accent: var(--palette-dark); /* 5.9:1 on accent */
+  --color-focus: var(--focus);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@theme {
+  /* Type */
+  --font-serif: var(--font-cormorant), ui-serif, Georgia, serif;
+  --font-sans: var(--font-jost), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
+
+  --text-display: 3rem;
+  --text-display--line-height: 1.05;
+  --text-display-lg: 5rem;
+  --text-display-lg--line-height: 1;
+  --text-title: 2.25rem;
+  --text-title--line-height: 1.1;
+  --text-title-lg: 3.25rem;
+  --text-title-lg--line-height: 1.05;
+  --text-lead: 1.1875rem;
+  --text-lead--line-height: 1.6;
+
+  /* Radii. Nested corners: inner = outer - padding (see --spacing-card). */
+  --spacing-card: 0.5rem;
+  --radius-card: 1.5rem;
+  --radius-card-inner: calc(var(--radius-card) - var(--spacing-card));
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-page);
+  color: var(--color-fg);
+}
+
+/*
+  Motion. `has-motion` is set on <html> before first paint (see layout.tsx);
+  only then do intro elements start hidden, so the page is fully visible
+  without JavaScript or with reduced motion.
+*/
+.has-motion [data-intro] {
+  visibility: hidden;
+}
+
+/*
+  Line-reveal masks (SplitText adds "-mask" to the line class) clip to the
+  line box, which would cut off descenders, accents and "$" in tightly set
+  headlines. Extend the clip above and below and cancel it out with negative
+  margins so the layout doesn't move.
+*/
+.split-line-mask {
+  padding-block: 0.35em;
+  margin-block: -0.35em;
+}
+/* A flex column stops neighbouring masks' negative margins from collapsing
+   into one, which would push the lines apart. */
+:has(> .split-line-mask) {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header turns solid once the hero has scrolled away. */
+[data-header] {
+  transition:
+    background-color 0.4s ease,
+    color 0.4s ease,
+    backdrop-filter 0.4s ease;
+}
+[data-header][data-solid] {
+  background-color: color-mix(in oklab, var(--color-page) 88%, transparent);
+  color: var(--color-fg);
+  backdrop-filter: blur(12px);
+  --focus: var(--palette-dark);
+}
+
+/*
+  Glint ring: a thin highlight that travels once around a pill-shaped
+  button's edge (see nudge-glint.tsx). A conic gradient is masked down to a
+  2px ring; animating the registered --glint-angle moves the highlight.
+*/
+@property --glint-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+.glint-ring {
+  padding: 2px;
+  background: conic-gradient(
+    from var(--glint-angle),
+    transparent 0deg,
+    color-mix(in oklab, var(--color-page) 95%, transparent) 30deg,
+    transparent 60deg,
+    transparent 360deg
+  );
+  mask:
+    linear-gradient(#000 0 0) content-box exclude,
+    linear-gradient(#000 0 0);
+}
+
+/* Fraunces' soft, "wonky" variant gives the display face its 70s character. */
+.font-display {
+  font-variation-settings:
+    "SOFT" 100,
+    "WONK" 1;
+}
+
+/* Faint static film grain over a positioned container. */
+.film-grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.14;
+  mix-blend-mode: soft-light;
 }
