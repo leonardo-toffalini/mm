@@ -127,6 +127,41 @@ body {
   flex-direction: column;
 }
 
+/*
+  Route changes (React <ViewTransition>, see gown-card.tsx and gown-stage.tsx).
+  A gown's photo grows from its card into the stage and shrinks back. With
+  reduced motion it only crossfades. (Stepping between gowns slides the photo
+  in from gown-stage.tsx instead.)
+*/
+::view-transition-group(.gown-morph) {
+  animation-duration: 550ms;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+::view-transition-image-pair(.gown-morph) {
+  animation-name: vt-soften;
+}
+@keyframes vt-soften {
+  30% {
+    filter: blur(3px);
+  }
+}
+@keyframes vt-fade {
+  from {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*) {
+    animation: none;
+  }
+  ::view-transition-old(*) {
+    animation: 150ms ease-out both reverse vt-fade;
+  }
+  ::view-transition-new(*) {
+    animation: 150ms ease-out both vt-fade;
+  }
+}
+
 /* Header turns solid once the hero has scrolled away. */
 [data-header] {
   transition:

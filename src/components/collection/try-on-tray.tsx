@@ -34,7 +34,8 @@ export function TryOnTray() {
       {gowns.length > 0 && (
         <aside
           aria-label="Próbalistád"
-          className="fixed inset-x-0 bottom-0 z-30 border-t border-fg/10 bg-page/95 pb-[env(safe-area-inset-bottom)] text-fg backdrop-blur-md"
+          // Rises into place when the first gown is added.
+          className="fixed inset-x-0 bottom-0 z-30 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] starting:translate-y-full motion-reduce:transition-none border-t border-fg/10 bg-page/95 pb-[env(safe-area-inset-bottom)] text-fg backdrop-blur-md"
         >
           <Container className="flex h-[72px] items-center justify-between gap-4">
             <div className="flex min-w-0 items-center gap-4">

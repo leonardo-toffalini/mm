@@ -11,10 +11,12 @@ export const studio = {
   guests: 3,
   rating: 4.9,
   reviewCount: 312,
-  address: "14 Rosewood Lane, Suite 2",
-  city: "Portland, OR",
-  hours: "Hétfő–szombat 10–18 óra, bejelentkezéssel",
-  email: "hello@magicmoment.example",
+  address: "Király utca 87.",
+  city: "1077 Budapest",
+  hours: "Hétfő–péntek 10–18, szombat 10–13 óra, bejelentkezéssel",
+  phone: "+36 20 986 3390",
+  email: "info@eliteszalon.hu",
+  mapsUrl: "https://maps.app.goo.gl/9JgviQajiUBwJV1h9",
 };
 
 // The first gown is shown as the large featured card.

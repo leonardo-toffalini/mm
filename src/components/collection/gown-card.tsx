@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { ViewTransition } from "react";
 import { LinkStatusIcon } from "@/components/ui/link-status-icon";
 import type { Gown } from "@/data/gowns";
 import { routes } from "@/lib/routes";
@@ -23,22 +24,25 @@ export function GownCard({ gown, featured = false, sizes, query = "" }: Props) {
       data-tone="dark"
       className={`group @container film-grain relative isolate flex h-full flex-col justify-end overflow-hidden rounded-card bg-inverse text-inverse-fg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus ${featured ? "aspect-[3/4] lg:aspect-auto" : "aspect-[3/4]"}`}
     >
-      <div data-reveal="media" className="absolute inset-0 -z-10">
-        {/* Taller than the frame so the parallax drift never shows an edge. */}
-        <div data-parallax className="absolute inset-x-0 -inset-y-[8%]">
-          <Image
-            src={gown.image}
-            alt={`${gown.name}: ${gown.silhouette}`}
-            fill
-            placeholder="blur"
-            sizes={sizes}
-            className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
-            style={{ objectPosition: gown.focus }}
-          />
+      {/* The photo carries over into the gown page's stage, and back. */}
+      <ViewTransition name={`gown-${gown.slug}`} share="gown-morph" default="none">
+        <div data-reveal="media" className="absolute inset-0 -z-10 overflow-hidden rounded-card">
+          {/* Taller than the frame so the parallax drift never shows an edge. */}
+          <div data-parallax className="absolute inset-x-0 -inset-y-[8%]">
+            <Image
+              src={gown.image}
+              alt={`${gown.name}: ${gown.silhouette}`}
+              fill
+              placeholder="blur"
+              sizes={sizes}
+              className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+              style={{ objectPosition: gown.focus }}
+            />
+          </div>
         </div>
-        {/* Reaches higher on narrow cards, where the text takes up more of it. */}
-        <div className="absolute inset-0 bg-linear-to-t from-shade/95 via-shade/70 via-50% to-transparent to-90% @xs:via-35% @xs:to-70%" />
-      </div>
+      </ViewTransition>
+      {/* Reaches higher on narrow cards, where the text takes up more of it. */}
+      <div className="absolute inset-0 -z-10 bg-linear-to-t from-shade/95 via-shade/70 via-50% to-transparent to-90% @xs:via-35% @xs:to-70%" />
       <div data-reveal="item" className={`p-3 sm:p-5 ${featured ? "lg:p-8" : ""}`}>
         <div className="flex items-baseline justify-between gap-3">
           <h3 className={`font-serif leading-tight font-medium ${featured ? "text-3xl lg:text-4xl" : "text-xl sm:text-2xl"}`}>

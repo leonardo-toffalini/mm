@@ -13,9 +13,14 @@ export function SiteFooter() {
         </div>
         <address className="text-sm not-italic leading-7">
           <p className="text-inverse-fg">Látogass el a szalonba</p>
-          <p>{studio.address}</p>
-          <p>{studio.city}</p>
+          <a href={studio.mapsUrl} target="_blank" rel="noopener noreferrer" className="underline-offset-4 hover:text-inverse-fg hover:underline">
+            <span className="block">{studio.address}</span>
+            <span className="block">{studio.city}</span>
+          </a>
           <p>{studio.hours}</p>
+          <a href={`tel:${studio.phone.replaceAll(" ", "")}`} className="block underline-offset-4 hover:text-inverse-fg hover:underline">
+            {studio.phone}
+          </a>
           <a href={`mailto:${studio.email}`} className="underline-offset-4 hover:text-inverse-fg hover:underline">
             {studio.email}
           </a>

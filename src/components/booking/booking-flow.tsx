@@ -198,7 +198,8 @@ function GownRail({ gowns }: { gowns: Gown[] }) {
     <div className="flex items-end gap-6">
       {!gowns.length && (
         <p className="max-w-xs text-sm text-pretty text-inverse-fg-muted lg:text-right">
-          Még nem választottál ruhát? Semmi gond, a próbán segítünk.
+          <span className="block">Még nem választottál ruhát?</span>
+          <span className="block">Semmi gond, a próbán segítünk.</span>
         </p>
       )}
       <ul aria-label="A ruháid" className="-mx-6 flex gap-3 overflow-x-auto px-6 pb-1 [scrollbar-width:none] lg:mx-0 lg:px-0">

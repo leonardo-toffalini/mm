@@ -3,13 +3,14 @@
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useLayoutEffect, useRef, ViewTransition } from "react";
 import { ButtonLink } from "@/components/ui/button-link";
 import { Container } from "@/components/ui/container";
 import { gownsIn, orderQuery, rooms, sortGowns, type Gown } from "@/data/gowns";
 import { studio } from "@/data/landing";
 import { routes } from "@/lib/routes";
 import { useOrder } from "@/lib/use-order";
-import { GownKeys } from "./gown-keys";
+import { GownKeys, step } from "./gown-keys";
 import { TryOnToggle } from "./try-on-toggle";
 import { formatPrice } from "@/lib/price";
 
@@ -29,6 +30,23 @@ export function GownStage({ gown }: { gown: Gown }) {
   const next = roomGowns[(index + 1) % roomGowns.length];
   const query = orderQuery(order);
   const href = (g: Gown) => routes.gown(g.slug) + query;
+  const photo = useRef<HTMLDivElement>(null);
+
+  // After a step, the new gown slides in from the side the visitor moved
+  // towards (only fading with reduced motion). Arriving from a card instead
+  // morphs the card's photo into this one (the ViewTransition below).
+  useLayoutEffect(() => {
+    const direction = step.direction;
+    step.direction = 0;
+    if (!direction || !photo.current) return;
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    photo.current.animate(
+      reduce
+        ? [{ opacity: 0 }, { opacity: 1 }]
+        : [{ opacity: 0, transform: `translateX(${direction * 8}%)` }, { opacity: 1, transform: "none" }],
+      { duration: reduce ? 200 : 500, easing: "cubic-bezier(0.16, 1, 0.3, 1)" },
+    );
+  }, [gown.slug]);
   const back = (
     <Link
       href={`${routes.collection}${query}#${gown.slug}`}
@@ -53,32 +71,36 @@ export function GownStage({ gown }: { gown: Gown }) {
         <div className="mt-6 grid flex-1 items-center gap-8 lg:mt-0 lg:grid-cols-[minmax(0,1fr)_auto] lg:grid-rows-2 lg:gap-x-12">
           <div className="flex items-center justify-center gap-6 lg:col-start-2 lg:row-span-2 lg:row-start-1">
             <StepLink href={href(prev)} label={`Előző ruha: ${prev.name}`} direction="prev" />
-            <div
-              data-intro
-              // On phones the photo is capped below half the screen so the price and
-              // sizes reach the first screen. On wide screens it takes the
-              // screen height left after the header and the
-              // strip (about 210px), capped so the details keep at least 320px
-              // of the (at most 80rem) page width beside it.
-              className="relative aspect-[3/4] h-[46svh] overflow-hidden rounded-card bg-shade sm:h-[min(70svh,820px)] lg:h-[min(calc(100svh_-_210px),900px,calc((min(100vw,80rem)_-_592px)*4/3))] lg:[[data-try-on]_&]:h-[min(calc(100svh_-_282px),900px,calc((min(100vw,80rem)_-_592px)*4/3))]"
-            >
-              <Image
-                src={gown.image}
-                alt={`${gown.name}: ${gown.silhouette}`}
-                fill
-                placeholder="blur"
-                priority
-                sizes="(min-width: 640px) 600px, 100vw"
-                quality={85}
-                className="object-cover"
-                style={{ objectPosition: gown.focus }}
-              />
-              {/* On phones the arrows sit on the photo. */}
-              <div className="absolute inset-x-3 bottom-3 flex justify-between lg:hidden">
-                <StepLink href={href(prev)} label={`Előző ruha: ${prev.name}`} direction="prev" overlay />
-                <StepLink href={href(next)} label={`Következő ruha: ${next.name}`} direction="next" overlay />
+            {/* Grows from the gown's card, and back into it. */}
+            <ViewTransition name={`gown-${gown.slug}`} share="gown-morph" default="none">
+              <div
+                ref={photo}
+                data-intro
+                // On phones the photo is capped below half the screen so the price and
+                // sizes reach the first screen. On wide screens it takes the
+                // screen height left after the header and the
+                // strip (about 210px), capped so the details keep at least 320px
+                // of the (at most 80rem) page width beside it.
+                className="relative aspect-[3/4] h-[46svh] overflow-hidden rounded-card bg-shade sm:h-[min(70svh,820px)] lg:h-[min(calc(100svh_-_210px),900px,calc((min(100vw,80rem)_-_592px)*4/3))] lg:[[data-try-on]_&]:h-[min(calc(100svh_-_282px),900px,calc((min(100vw,80rem)_-_592px)*4/3))]"
+              >
+                <Image
+                  src={gown.image}
+                  alt={`${gown.name}: ${gown.silhouette}`}
+                  fill
+                  placeholder="blur"
+                  priority
+                  sizes="(min-width: 640px) 600px, 100vw"
+                  quality={85}
+                  className="object-cover"
+                  style={{ objectPosition: gown.focus }}
+                />
+                {/* On phones the arrows sit on the photo. */}
+                <div className="absolute inset-x-3 bottom-3 flex justify-between lg:hidden">
+                  <StepLink href={href(prev)} label={`Előző ruha: ${prev.name}`} direction="prev" overlay />
+                  <StepLink href={href(next)} label={`Következő ruha: ${next.name}`} direction="next" overlay />
+                </div>
               </div>
-            </div>
+            </ViewTransition>
             <StepLink href={href(next)} label={`Következő ruha: ${next.name}`} direction="next" />
           </div>
 
@@ -119,12 +141,13 @@ export function GownStage({ gown }: { gown: Gown }) {
             {index + 1}/{roomGowns.length}
           </p>
           <ul data-strip className="-my-2 flex gap-2 overflow-x-auto py-2 pl-1 [scrollbar-width:none]">
-            {roomGowns.map((g) => {
+            {roomGowns.map((g, i) => {
               const current = g.slug === gown.slug;
               return (
                 <li key={g.slug} className="shrink-0">
                   <Link
                     href={href(g)}
+                    onNavigate={() => (step.direction = i < index ? -1 : 1)}
                     aria-current={current ? "page" : undefined}
                     aria-label={g.name}
                     title={g.name}
@@ -149,6 +172,7 @@ function StepLink({ href, label, direction, overlay = false }: StepProps) {
   return (
     <Link
       href={href}
+      onNavigate={() => (step.direction = direction === "prev" ? -1 : 1)}
       aria-label={label}
       className={`grid size-12 shrink-0 place-items-center rounded-full transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus ${overlay ? "bg-shade/60 text-inverse-fg backdrop-blur-sm hover:bg-shade/80" : "hidden border border-inverse-fg/30 hover:border-inverse-fg hover:bg-inverse-fg/10 lg:grid"}`}
     >

@@ -17,6 +17,25 @@ declare global {
 const ease = "expo.out";
 const xl = "(min-width: 1280px)";
 
+// The intro plays only on a hard load, and scroll reveals only on a page's
+// first visit: moving around the site (and the photo carried between a card
+// and its gown page) shouldn't wait on motion already seen. Tracked by path
+// change rather than per run, so React's dev double-run doesn't count twice.
+const seen = new Set<string>();
+let current = "";
+let navigated = false;
+let firstVisit = true;
+function visit() {
+  const path = location.pathname;
+  if (path !== current) {
+    if (current) navigated = true;
+    firstVisit = !seen.has(path);
+    seen.add(path);
+    current = path;
+  }
+  return { hardLoad: !navigated, firstVisit };
+}
+
 /**
  * All page motion lives here, driven by data attributes on server-rendered
  * markup:
@@ -31,10 +50,12 @@ const xl = "(min-width: 1280px)";
  * - data-stroke-draw      brush-stroke path, drawn in as you scroll
  *
  * Nothing runs with prefers-reduced-motion; content is then simply visible.
+ * Route changes animate separately, with view transitions (see globals.css).
  */
 export function PageMotion() {
   useGSAP(() => {
     window.__motionReady = true;
+    const { hardLoad, firstVisit } = visit();
     const mm = gsap.matchMedia();
 
     mm.add("(prefers-reduced-motion: reduce)", () => {
@@ -49,14 +70,16 @@ export function PageMotion() {
       gsap.ticker.add(tick);
       gsap.ticker.lagSmoothing(0);
 
-      intro();
+      if (hardLoad) intro();
+      else gsap.set("[data-intro]", { visibility: "visible" });
+      const undoReveals = firstVisit ? reveals() : undefined;
       heroScroll();
       header();
       solidHeader();
-      reveals();
       parallax();
 
       return () => {
+        undoReveals?.();
         gsap.ticker.remove(tick);
         lenis.destroy();
       };
@@ -170,6 +193,15 @@ function reveals() {
   if (items.length) revealItems(items);
   const media = gsap.utils.toArray<HTMLElement>("[data-reveal='media']");
   if (media.length) revealMedia(media);
+
+  // The tweens that show items and media start later, from scroll callbacks,
+  // outside the GSAP context, so reverting it alone would leave a page that
+  // React keeps alive between routes stuck in the hidden start state.
+  return () => {
+    const shown = [...items, ...media, ...media.map((el) => el.firstElementChild!)];
+    gsap.killTweensOf(shown);
+    gsap.set(shown, { clearProps: "transform,opacity,visibility,clipPath" });
+  };
 }
 
 function revealItems(items: HTMLElement[]) {
