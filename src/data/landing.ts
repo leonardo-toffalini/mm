@@ -13,7 +13,7 @@ export const studio = {
   reviewCount: 312,
   address: "14 Rosewood Lane, Suite 2",
   city: "Portland, OR",
-  hours: "Tue–Sat, 10am–6pm, by appointment",
+  hours: "Hétfő–szombat 10–18 óra, bejelentkezéssel",
   email: "hello@magicmoment.example",
 };
 
@@ -24,42 +24,42 @@ export const featuredGowns: Gown[] = ["seraphine", "aurelie", "celeste", "margot
 
 export const steps = [
   {
-    when: "Visit 1",
-    title: "Try on up to five gowns",
-    body: `A free ${studio.fittingMinutes}-minute private fitting with a stylist. Bring up to ${studio.guests} guests.`,
+    when: "Első alkalom",
+    title: "Akár öt ruhát is felpróbálhatsz",
+    body: `Ingyenes, ${studio.fittingMinutes} perces ruhapróba a szalonban, sietség nélkül. Anyukádat, a tanúdat is hozhatod, összesen legfeljebb ${studio.guests} főt.`,
   },
   {
-    when: "Visit 2",
-    title: "Final alterations",
-    body: "About two weeks before the wedding, our seamstress tailors your gown to fit you exactly.",
+    when: "Második alkalom",
+    title: "Utolsó igazítás",
+    body: "Nagyjából két héttel az esküvő előtt varrónőnk pontosan rád szabja a ruhát.",
   },
   {
-    when: "Visit 3",
-    title: "Collect, wear, return",
-    body: `Pick it up two days before. You have ${studio.rentalDays} days in total, and cleaning is included.`,
+    when: "Harmadik alkalom",
+    title: "Átveszed, viseled, visszahozod",
+    body: `Két nappal az esküvő előtt veheted át, és összesen ${studio.rentalDays} napig lehet nálad. A tisztítás benne van az árban.`,
   },
 ];
 
 export const testimonials = [
   {
     quote:
-      "I tried on four gowns and cried at the third. Having it tailored to me made it feel like it was always mine.",
-    name: "Sofia",
+      "Négy ruhát próbáltam fel, és a harmadiknál elsírtam magam. Mivel rám szabták, olyan volt, mintha mindig is az enyém lett volna.",
+    name: "Zsófia",
     gown: "Aurélie",
-    date: "June 2026",
+    date: "2026. június",
   },
   {
     quote:
-      "The fitting was relaxed and private. My mum and sister came along and nobody rushed us.",
-    name: "Hannah",
+      "A próba nyugodt és bensőséges volt. Anyukám és a húgom is eljött, és senki sem siettetett minket.",
+    name: "Hanna",
     gown: "Margot",
-    date: "September 2025",
+    date: "2025. szeptember",
   },
   {
     quote:
-      "I wore a $4,000 designer gown for $340, and there's nothing sitting in my closet afterwards.",
-    name: "Amara",
+      "Egy kétmillió forintos ruhát viseltem 170 ezer forintért, és most nem porosodik a szekrényemben.",
+    name: "Réka",
     gown: "Céleste",
-    date: "April 2026",
+    date: "2026. április",
   },
 ];

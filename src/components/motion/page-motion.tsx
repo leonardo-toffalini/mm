@@ -114,7 +114,9 @@ function heroScroll() {
   });
 }
 
-// The wordmark starts large and settles into the header.
+// The wordmark starts large and settles into the header. It scales from the
+// middle of its lowercase letters (origin-[0_62%]), not its box centre, so the
+// letters the eye lines up with the nav never move as it grows or shrinks.
 function header() {
   const logo = document.querySelector("[data-logo]");
   if (!logo) return;

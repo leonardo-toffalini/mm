@@ -7,7 +7,7 @@ export function Testimonials() {
     <section id="reviews" className="scroll-mt-[72px] py-24 lg:py-32">
       <Container>
         <SectionHeading
-          title={`Rated ${studio.rating} out of 5 by ${studio.reviewCount} brides`}
+          title={`${studio.reviewCount} menyasszony értékelése: ${studio.rating.toLocaleString("hu-HU")} / 5`}
         />
         <ul className="mt-12 grid gap-4 md:grid-cols-3">
           {testimonials.map((t) => (
@@ -15,13 +15,13 @@ export function Testimonials() {
               <figure className="flex h-full flex-col justify-between gap-10 rounded-card bg-surface p-8">
                 {/* Hanging opening quote keeps the text edge aligned. */}
                 <blockquote className="-indent-[0.4em] font-serif text-2xl leading-snug text-pretty">
-                  &ldquo;{t.quote}&rdquo;
+                  &bdquo;{t.quote}&rdquo;
                 </blockquote>
                 <figcaption className="text-sm">
                   <span className="font-medium">{t.name}</span>
                   <span className="text-fg-muted">
                     {" "}
-                    · wore {t.gown}, {t.date}
+                    · {t.gown}, {t.date}
                   </span>
                 </figcaption>
               </figure>

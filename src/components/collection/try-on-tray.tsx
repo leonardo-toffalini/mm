@@ -33,19 +33,19 @@ export function TryOnTray() {
       <p id="try-on-status" role="status" className="sr-only" />
       {gowns.length > 0 && (
         <aside
-          aria-label="Your try-on list"
+          aria-label="Próbalistád"
           className="fixed inset-x-0 bottom-0 z-30 border-t border-fg/10 bg-page/95 pb-[env(safe-area-inset-bottom)] text-fg backdrop-blur-md"
         >
           <Container className="flex h-[72px] items-center justify-between gap-4">
             <div className="flex min-w-0 items-center gap-4">
               <p className="shrink-0 text-sm">
                 <span className="font-medium">
-                  <span className="hidden sm:inline">Your try-on list · </span>
+                  <span className="hidden sm:inline">Próbalistád · </span>
                   <span className="tabular-nums">
-                    {gowns.length} of {TRY_ON_LIMIT}
+                    {gowns.length}/{TRY_ON_LIMIT}
                   </span>
                 </span>
-                <span className="text-fg-muted sm:hidden"> chosen</span>
+                <span className="text-fg-muted sm:hidden"> kiválasztva</span>
               </p>
               {/* On phones the count stands in for the photos; each gown's own
                   page adds or removes it. */}
@@ -63,9 +63,9 @@ export function TryOnTray() {
                       type="button"
                       onClick={() => {
                         toggle(g.slug);
-                        announce(`${g.name} removed from your try-on list.`);
+                        announce(`${g.name} lekerült a próbalistádról.`);
                       }}
-                      aria-label={`Remove ${g.name} from your try-on list`}
+                      aria-label={`${g.name} levétele a próbalistádról`}
                       // after: widens the tap area to 44px around the small badge.
                       className="absolute -top-2 -right-2 grid size-6 place-items-center rounded-full after:absolute after:-inset-2.5 bg-fg text-page opacity-70 transition-opacity group-hover:opacity-100 hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-focus"
                     >
@@ -76,8 +76,8 @@ export function TryOnTray() {
               </ul>
             </div>
             <ButtonLink href={`${routes.booking}?gowns=${gowns.map((g) => g.slug).join(",")}`} className="shrink-0 whitespace-nowrap">
-              <span className="sm:hidden">Book with these</span>
-              <span className="hidden sm:inline">Book a fitting with these</span>
+              <span className="sm:hidden">Foglalok</span>
+              <span className="hidden sm:inline">Ruhapróbát foglalok ezekkel</span>
             </ButtonLink>
           </Container>
         </aside>

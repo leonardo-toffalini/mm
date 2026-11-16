@@ -11,6 +11,7 @@ import { routes } from "@/lib/routes";
 import { useOrder } from "@/lib/use-order";
 import { GownKeys } from "./gown-keys";
 import { TryOnToggle } from "./try-on-toggle";
+import { formatPrice } from "@/lib/price";
 
 /**
  * One gown at a time, nearly full height on a dark stage, like standing at
@@ -34,7 +35,7 @@ export function GownStage({ gown }: { gown: Gown }) {
       className="group inline-flex items-center gap-1.5 self-start text-sm font-medium text-inverse-fg-muted transition-colors hover:text-inverse-fg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
     >
       <ArrowLeft aria-hidden size={16} strokeWidth={1.75} className="transition-transform duration-200 group-hover:-translate-x-0.5" />
-      All {room.name.toLowerCase()} gowns
+      Az összes {room.gownKind}
     </Link>
   );
 
@@ -51,7 +52,7 @@ export function GownStage({ gown }: { gown: Gown }) {
             arrows beside it never move between gowns. */}
         <div className="mt-6 grid flex-1 items-center gap-8 lg:mt-0 lg:grid-cols-[minmax(0,1fr)_auto] lg:grid-rows-2 lg:gap-x-12">
           <div className="flex items-center justify-center gap-6 lg:col-start-2 lg:row-span-2 lg:row-start-1">
-            <StepLink href={href(prev)} label={`Previous gown: ${prev.name}`} direction="prev" />
+            <StepLink href={href(prev)} label={`Előző ruha: ${prev.name}`} direction="prev" />
             <div
               data-intro
               // On phones the photo is capped below half the screen so the price and
@@ -74,11 +75,11 @@ export function GownStage({ gown }: { gown: Gown }) {
               />
               {/* On phones the arrows sit on the photo. */}
               <div className="absolute inset-x-3 bottom-3 flex justify-between lg:hidden">
-                <StepLink href={href(prev)} label={`Previous gown: ${prev.name}`} direction="prev" overlay />
-                <StepLink href={href(next)} label={`Next gown: ${next.name}`} direction="next" overlay />
+                <StepLink href={href(prev)} label={`Előző ruha: ${prev.name}`} direction="prev" overlay />
+                <StepLink href={href(next)} label={`Következő ruha: ${next.name}`} direction="next" overlay />
               </div>
             </div>
-            <StepLink href={href(next)} label={`Next gown: ${next.name}`} direction="next" />
+            <StepLink href={href(next)} label={`Következő ruha: ${next.name}`} direction="next" />
           </div>
 
           {/* The name scales with its own column (cqi), so long names like
@@ -98,24 +99,24 @@ export function GownStage({ gown }: { gown: Gown }) {
           </div>
 
           <div data-intro="fade" className="lg:col-start-1 lg:row-start-2 lg:self-start">
-            <p className="font-serif text-3xl font-medium lining-nums proportional-nums">from ${gown.rentalFrom}</p>
-            <p className="mt-2 text-inverse-fg-muted">Sizes {gown.sizes}</p>
+            <p className="text-lg tabular-nums">{formatPrice(gown.rentalFrom)}-tól</p>
+            <p className="mt-2 text-inverse-fg-muted">Méret: {gown.sizes}</p>
             <p className="mt-1 text-inverse-fg-muted">
-              For {studio.rentalDays} days, tailoring and cleaning included
+              {studio.rentalDays} napra, igazítással és tisztítással együtt
             </p>
             <div className="mt-8 flex flex-wrap items-start gap-3">
               <TryOnToggle slug={gown.slug} name={gown.name} />
               {/* The try-on list's own button takes over booking while it shows. */}
               <ButtonLink href={routes.booking} size="lg" className="[[data-try-on]_&]:hidden">
-                Book a fitting
+                Ruhapróbát foglalok
               </ButtonLink>
             </div>
           </div>
         </div>
 
-        <nav aria-label={`${room.name} gowns`} className="mt-8 flex items-center gap-4">
+        <nav aria-label={`${room.name} kategória ruhái`} className="mt-8 flex items-center gap-4">
           <p className="shrink-0 text-sm tabular-nums text-inverse-fg-muted">
-            {index + 1} of {roomGowns.length}
+            {index + 1}/{roomGowns.length}
           </p>
           <ul data-strip className="-my-2 flex gap-2 overflow-x-auto py-2 pl-1 [scrollbar-width:none]">
             {roomGowns.map((g) => {

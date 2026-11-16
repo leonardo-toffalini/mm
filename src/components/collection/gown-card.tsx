@@ -3,6 +3,7 @@ import Link from "next/link";
 import { LinkStatusIcon } from "@/components/ui/link-status-icon";
 import type { Gown } from "@/data/gowns";
 import { routes } from "@/lib/routes";
+import { formatPrice } from "@/lib/price";
 
 type Props = {
   gown: Gown;
@@ -13,17 +14,16 @@ type Props = {
   query?: string;
 };
 
-// A paper swatch: the photo framed in sand, name and price beneath.
+// The photo is the card: name, price and fit are set over an olive-ink shade
+// with film grain, like the room openers.
 export function GownCard({ gown, featured = false, sizes, query = "" }: Props) {
   return (
     <Link
       href={routes.gown(gown.slug) + query}
-      className="group flex h-full flex-col rounded-card bg-surface p-card transition-colors duration-200 hover:bg-surface-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
+      data-tone="dark"
+      className={`group @container film-grain relative isolate flex h-full flex-col justify-end overflow-hidden rounded-card bg-inverse text-inverse-fg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus ${featured ? "aspect-[3/4] lg:aspect-auto" : "aspect-[3/4]"}`}
     >
-      <div
-        data-reveal="media"
-        className={`relative overflow-hidden rounded-card-inner bg-surface-hover ${featured ? "aspect-[3/4] lg:aspect-auto lg:flex-1" : "aspect-[3/4]"}`}
-      >
+      <div data-reveal="media" className="absolute inset-0 -z-10">
         {/* Taller than the frame so the parallax drift never shows an edge. */}
         <div data-parallax className="absolute inset-x-0 -inset-y-[8%]">
           <Image
@@ -32,27 +32,27 @@ export function GownCard({ gown, featured = false, sizes, query = "" }: Props) {
             fill
             placeholder="blur"
             sizes={sizes}
-            className="object-cover"
+            className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
             style={{ objectPosition: gown.focus }}
           />
         </div>
+        {/* Reaches higher on narrow cards, where the text takes up more of it. */}
+        <div className="absolute inset-0 bg-linear-to-t from-shade/95 via-shade/70 via-50% to-transparent to-90% @xs:via-35% @xs:to-70%" />
       </div>
-      <div data-reveal="item" className="px-2 pt-4 pb-2 sm:px-3">
-        {/* Narrow cards stack name and price so every card in a row matches. */}
-        <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-baseline sm:justify-between sm:gap-x-3">
-          <h3 className={`font-serif font-medium ${featured ? "text-3xl" : "text-2xl"}`}>{gown.name}</h3>
-          <p className="text-sm tabular-nums text-fg">from ${gown.rentalFrom}</p>
-        </div>
-        <div className="mt-1 flex items-end justify-between gap-3 text-sm text-fg-muted">
-          <p className="text-pretty">
-            {gown.silhouette}
-            <span className="hidden sm:inline"> · {gown.sizes}</span>
-            <span className="block sm:hidden">{gown.sizes}</span>
-          </p>
-          <span className="shrink-0 text-fg">
+      <div data-reveal="item" className={`p-3 sm:p-5 ${featured ? "lg:p-8" : ""}`}>
+        <div className="flex items-baseline justify-between gap-3">
+          <h3 className={`font-serif leading-tight font-medium ${featured ? "text-3xl lg:text-4xl" : "text-xl sm:text-2xl"}`}>
+            {gown.name}
+          </h3>
+          <span className="shrink-0">
             <LinkStatusIcon />
           </span>
         </div>
+        <p className="mt-1 text-sm tabular-nums">{formatPrice(gown.rentalFrom)}-tól</p>
+        <p className="mt-1 text-sm text-inverse-fg-muted">
+          <span className="line-clamp-1">{gown.silhouette}</span>
+          <span className="tabular-nums">Méret: {gown.sizes}</span>
+        </p>
       </div>
     </Link>
   );

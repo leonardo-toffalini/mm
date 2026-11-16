@@ -5,8 +5,15 @@ import { dayParts, type Day } from "@/data/availability";
 
 export type Slot = { date: string; time: string };
 
-/** The open days split into weeks of five (Tue–Sat). */
-export const toWeeks = (days: Day[] | null) => (days ? [days.slice(0, 5), days.slice(5, 10)] : []);
+/** The open days split into weeks of six (Mon–Sat). */
+export const toWeeks = (days: Day[] | null) => (days ? [days.slice(0, 6), days.slice(6, 12)] : []);
+
+/** Hungarian date range: "nov. 18–23." within a month, "nov. 30. – dec. 5." across two. */
+export function range(from: string, to: string) {
+  const a = dayParts(from);
+  const b = dayParts(to);
+  return a.month === b.month ? `${a.month} ${a.day}–${b.day}.` : `${a.month} ${a.day}. – ${b.month} ${b.day}.`;
+}
 
 type NavProps = { days: Day[] | null; week: number; onWeek: (week: number) => void };
 
@@ -14,15 +21,14 @@ type NavProps = { days: Day[] | null; week: number; onWeek: (week: number) => vo
 export function WeekNav({ days, week, onWeek }: NavProps) {
   const weeks = toWeeks(days);
   const shown = weeks[week];
-  const label = (d: Day) => `${dayParts(d.date).day} ${dayParts(d.date).month}`;
   return (
     <div className="flex items-center gap-4">
       <p className="text-sm font-medium tabular-nums" aria-live="polite">
-        {shown?.length ? `${label(shown[0])} – ${label(shown[shown.length - 1])}` : ""}
+        {shown?.length ? range(shown[0].date, shown[shown.length - 1].date) : ""}
       </p>
       <div className="flex gap-2">
-        <WeekButton label="Previous week" disabled={week === 0} onClick={() => onWeek(week - 1)} direction="prev" />
-        <WeekButton label="Next week" disabled={week >= weeks.length - 1} onClick={() => onWeek(week + 1)} direction="next" />
+        <WeekButton label="Előző hét" disabled={week === 0} onClick={() => onWeek(week - 1)} direction="prev" />
+        <WeekButton label="Következő hét" disabled={week >= weeks.length - 1} onClick={() => onWeek(week + 1)} direction="next" />
       </div>
     </div>
   );
@@ -35,14 +41,14 @@ type Props = {
   onSelect: (slot: Slot) => void;
 };
 
-/** A week of open days (Tue–Sat), each a sand card of its slot times. */
+/** A week of open days (Mon–Sat), each a sand card of its slot times. */
 export function WeekCalendar({ days, week, selected, onSelect }: Props) {
   const shown = toWeeks(days)[week];
 
   return (
     <div>
-      <ul className="grid gap-3 sm:grid-cols-5">
-        {(shown ?? Array.from({ length: 5 }, () => null)).map((day, i) => (
+      <ul className="grid gap-3 sm:grid-cols-3 lg:grid-cols-6">
+        {(shown ?? Array.from({ length: 6 }, () => null)).map((day, i) => (
           <li key={day?.date ?? i} className="rounded-card bg-surface p-4 sm:min-h-52">
             {day ? (
               <fieldset>
@@ -50,7 +56,7 @@ export function WeekCalendar({ days, week, selected, onSelect }: Props) {
                   <span className="font-serif text-2xl font-medium">
                     {dayParts(day.date).weekday} {dayParts(day.date).day}
                   </span>
-                  <span className="sr-only"> {dayParts(day.date).month}</span>
+                  <span className="sr-only">, {dayParts(day.date).month}</span>
                 </legend>
                 {day.slots.some((s) => s.open) ? (
                   <div className="mt-3 flex flex-wrap gap-2 sm:flex-col">
@@ -73,7 +79,7 @@ export function WeekCalendar({ days, week, selected, onSelect }: Props) {
                       })}
                   </div>
                 ) : (
-                  <p className="mt-3 text-sm text-fg-muted">Fully booked</p>
+                  <p className="mt-3 text-sm text-fg-muted">Minden időpont foglalt</p>
                 )}
               </fieldset>
             ) : (

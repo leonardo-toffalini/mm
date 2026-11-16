@@ -27,17 +27,18 @@ export function ClosingCta() {
       </div>
       <Container className="flex flex-col items-start py-28 lg:py-40">
         <h2 data-reveal="heading" className="-ml-[0.04em] max-w-3xl text-5xl font-display leading-none font-normal tracking-[-0.02em] text-balance lg:text-7xl">
-          Book your free{" "}
-          {/* Kept on one line: browsers otherwise break after the hyphen. */}
-          <span className="whitespace-nowrap">{studio.fittingMinutes}-minute</span> fitting
+          Gyere el egy{" "}
+          {/* Kept on one line so the number never ends a line on its own. */}
+          <span className="whitespace-nowrap">{studio.fittingMinutes} perces</span> ruhapróbára
         </h2>
         <p data-reveal="item" className="mt-6 max-w-md text-lead text-pretty text-inverse-fg-muted">
-          Tuesday to Saturday at the studio. Try on up to five gowns for your wedding or prom, bring
-          up to {studio.guests} guests, and leave with your shortlist.
+          Hétfőtől szombatig várunk a szalonban. Akár öt ruhát is felpróbálhatsz az esküvődre vagy a
+          szalagavatódra, legfeljebb {studio.guests} fős társasággal, és mire hazaindulsz, tudni fogod,
+          melyik ruhák közül választasz.
         </p>
         {/* While the try-on list shows, its own button books (with the chosen gowns). */}
         <ButtonLink href={routes.booking} size="lg" data-reveal="item" className="mt-10 [[data-try-on]_&]:hidden">
-          Choose a time
+          Ruhapróbát foglalok
         </ButtonLink>
       </Container>
     </section>

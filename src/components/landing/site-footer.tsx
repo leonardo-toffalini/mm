@@ -8,11 +8,11 @@ export function SiteFooter() {
         <div>
           <p className="font-display text-3xl text-inverse-fg">Magic Moment</p>
           <p className="mt-3 max-w-xs text-sm leading-relaxed">
-            Bridal, prom and maternity gowns to rent, tailored to fit you.
+            Menyasszonyi, kismama és szalagavatós ruhák kölcsönzése.
           </p>
         </div>
         <address className="text-sm not-italic leading-7">
-          <p className="text-inverse-fg">Visit the studio</p>
+          <p className="text-inverse-fg">Látogass el a szalonba</p>
           <p>{studio.address}</p>
           <p>{studio.city}</p>
           <p>{studio.hours}</p>
@@ -22,7 +22,7 @@ export function SiteFooter() {
         </address>
       </Container>
       <Container>
-        <p className="mt-16 text-xs">© Magic Moment. Photography via Unsplash.</p>
+        <p className="mt-16 text-xs">© Magic Moment. Fotók: Unsplash.</p>
       </Container>
     </footer>
   );

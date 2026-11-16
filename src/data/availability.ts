@@ -1,4 +1,4 @@
-// Mock availability until a booking backend exists: fittings run Tuesday to
+// Mock availability until a booking backend exists: fittings run Monday to
 // Saturday, four 90-minute slots a day, and some are shown as already taken.
 export const SLOT_TIMES = ["10:00", "11:45", "13:30", "15:15"];
 export const FITTING_MINUTES = 90;
@@ -8,14 +8,14 @@ export type Day = { date: string; slots: { time: string; open: boolean }[] };
 const iso = (d: Date) =>
   `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 
-/** The studio's open days (Tue–Sat) for the given number of weeks after `today` (YYYY-MM-DD). */
+/** The studio's open days (Mon–Sat) for the given number of weeks after `today` (YYYY-MM-DD). */
 export function openDays(today: string, weeks = 2): Day[] {
   const start = new Date(`${today}T12:00:00`);
   const days: Day[] = [];
-  for (let i = 1; days.length < weeks * 5; i++) {
+  for (let i = 1; days.length < weeks * 6; i++) {
     const d = new Date(start);
     d.setDate(start.getDate() + i);
-    if (d.getDay() === 0 || d.getDay() === 1) continue; // closed Sunday and Monday
+    if (d.getDay() === 0) continue; // closed Sunday
     const date = iso(d);
     days.push({ date, slots: SLOT_TIMES.map((time) => ({ time, open: !taken(date, time) })) });
   }
@@ -32,14 +32,14 @@ function taken(date: string, time: string) {
 
 export const todayISO = () => iso(new Date());
 
-/** "Wed 18 Nov"-style parts for a YYYY-MM-DD date. */
+/** Hungarian parts for a YYYY-MM-DD date: "Sze", 18, "nov.", "november 18., szerda". */
 export function dayParts(date: string) {
   const d = new Date(`${date}T12:00:00`);
   return {
-    weekday: d.toLocaleDateString("en-US", { weekday: "short" }),
+    weekday: d.toLocaleDateString("hu-HU", { weekday: "short" }),
     day: d.getDate(),
-    month: d.toLocaleDateString("en-US", { month: "short" }),
-    long: d.toLocaleDateString("en-US", { weekday: "long", day: "numeric", month: "long" }),
+    month: d.toLocaleDateString("hu-HU", { month: "short" }),
+    long: d.toLocaleDateString("hu-HU", { weekday: "long", day: "numeric", month: "long" }),
   };
 }
 

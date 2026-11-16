@@ -23,9 +23,9 @@ const fraunces = Fraunces({
 });
 
 export const metadata: Metadata = {
-  title: "Magic Moment — Bridal Gown Rental",
+  title: "Magic Moment – Menyasszonyiruha-kölcsönzés",
   description:
-    "Designer bridal gowns to rent, fitted to you by appointment. Fall in love with the dress, not the price tag.",
+    "Menyasszonyi ruhák kölcsönzése, ingyenes ruhapróbával a szalonban. A ruhába szeress bele, ne az árába.",
 };
 
 // Runs before first paint: marks the page as animated (unless the visitor asks
@@ -36,7 +36,7 @@ const motionBootstrap = `(function(){var d=document.documentElement;if(matchMedi
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
-      lang="en"
+      lang="hu"
       className={`${cormorant.variable} ${jost.variable} ${fraunces.variable} h-full antialiased`}
       suppressHydrationWarning
     >
@@ -49,7 +49,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           href="#main"
           className="sr-only z-50 rounded-full bg-page px-4 py-2 font-medium text-fg focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
         >
-          Skip to content
+          Ugrás a tartalomra
         </a>
         {children}
       </body>

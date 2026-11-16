@@ -17,13 +17,13 @@ import { WeekCalendar, WeekNav, type Slot } from "./week-calendar";
 type Step = 1 | 2 | 3 | "done";
 type Details = { name: string; email: string; occasion: string; eventDate: string; size: string; notes: string };
 
-const steps = ["Choose a time", "How to reach you", "Confirm"];
-const occasions = ["Wedding", "Prom", "Maternity wedding"];
+const steps = ["Időpont", "Elérhetőség", "Ellenőrzés"];
+const occasions = ["Esküvő", "Szalagavató", "Kismama esküvő"];
 const emptyDetails: Details = { name: "", email: "", occasion: "", eventDate: "", size: "", notes: "" };
 
-// The optional details as one line for the summary: "Wedding · 12 June · size US 8".
+// The optional details as one line for the summary: "Esküvő · június 12., péntek · méret: 38".
 const extras = (d: Details) =>
-  [d.occasion, d.eventDate && `on ${dayParts(d.eventDate).long}`, d.size && `size ${d.size}`].filter(Boolean).join(" · ");
+  [d.occasion, d.eventDate && dayParts(d.eventDate).long, d.size && `méret: ${d.size}`].filter(Boolean).join(" · ");
 
 const noop = () => () => {};
 // Read in the browser only: dates depend on the visitor's today, and the
@@ -69,12 +69,12 @@ export function BookingFlow() {
           <div className="grid items-end gap-6 sm:gap-10 lg:grid-cols-[minmax(0,1fr)_auto]">
             <div>
               <h1 className="-ml-[0.04em] font-display text-[2.75rem] leading-none font-normal tracking-[-0.02em] text-balance sm:text-7xl">
-                {done ? "You’re booked" : "Book your fitting"}
+                {done ? "Megvan az időpontod" : "Ruhapróba foglalása"}
               </h1>
               <p className="mt-4 max-w-md text-pretty text-inverse-fg-muted sm:mt-5 sm:text-lead">
                 {done
                   ? when
-                  : `Free, ${studio.fittingMinutes} minutes, with up to ${studio.guests} guests. Your stylist will have your gowns ready.`}
+                  : `Ingyenes, ${studio.fittingMinutes} perces ruhapróba, ahová legfeljebb ${studio.guests} főt hozhatsz. A kiválasztott ruhákat előkészítjük.`}
               </p>
             </div>
             <GownRail gowns={gowns} />
@@ -92,14 +92,14 @@ export function BookingFlow() {
                   <span className="sr-only sm:not-sr-only">
                     <span className="tabular-nums">{n}</span> · {label}
                   </span>
-                  {state === "done" && <span className="sr-only"> (done)</span>}
+                  {state === "done" && <span className="sr-only"> (kész)</span>}
                 </li>
               );
             })}
           </ol>
           {/* Phones show the bars alone, with the current step named beneath. */}
           <p aria-hidden className="pt-3 pb-6 text-sm sm:hidden">
-            {done ? "Booked" : `${step} · ${steps[(step as number) - 1]}`}
+            {done ? "Lefoglalva" : `${step} · ${steps[(step as number) - 1]}`}
           </p>
         </Container>
       </section>
@@ -109,7 +109,7 @@ export function BookingFlow() {
           {/* The calendar spans the page; the form and summary keep a reading width. */}
           <div className={step === 1 ? undefined : "max-w-5xl"}>
             {step === 1 && (
-              <StepFrame title="Choose a time" heading={heading} aside={<WeekNav days={days} week={week} onWeek={setWeek} />}>
+              <StepFrame title="Válassz időpontot" heading={heading} aside={<WeekNav days={days} week={week} onWeek={setWeek} />}>
                 <WeekCalendar days={days} week={week} selected={slot} onSelect={setSlot} />
                 <Actions>
                   <Button
@@ -118,10 +118,10 @@ export function BookingFlow() {
                     onClick={() => slot && setStep(2)}
                     className="aria-disabled:cursor-not-allowed aria-disabled:opacity-50"
                   >
-                    Continue
+                    Tovább
                   </Button>
                   <p className="text-sm text-fg-muted" aria-live="polite">
-                    {when ?? "Choose a time to continue"}
+                    {when ?? "Válassz egy időpontot a folytatáshoz"}
                   </p>
                 </Actions>
               </StepFrame>
@@ -138,23 +138,23 @@ export function BookingFlow() {
             )}
 
             {step === 3 && slot && (
-              <StepFrame title="Check your booking" heading={heading}>
+              <StepFrame title="Ellenőrizd a foglalást" heading={heading}>
                 <dl className="divide-y divide-fg/10 border-y border-fg/10">
-                  <Row label="When" onChange={() => setStep(1)}>
+                  <Row label="Időpont" onChange={() => setStep(1)}>
                     {when}
                   </Row>
-                  <Row label="Gowns" onChange={() => (location.href = routes.collection)} changeLabel="Change gowns">
-                    {gowns.length ? gowns.map((g) => g.name).join(", ") : "None yet; your stylist will help you choose"}
+                  <Row label="Ruhák" onChange={() => (location.href = routes.collection)} changeLabel="Ruhák módosítása">
+                    {gowns.length ? gowns.map((g) => g.name).join(", ") : "Még nincs, a próbán segítünk választani"}
                   </Row>
-                  <Row label="You" onChange={() => setStep(2)}>
+                  <Row label="Adataid" onChange={() => setStep(2)}>
                     {details.name}, {details.email}
                     {extras(details) && <span className="block text-fg-muted">{extras(details)}</span>}
-                    {details.notes && <span className="block text-fg-muted">&ldquo;{details.notes}&rdquo;</span>}
+                    {details.notes && <span className="block text-fg-muted">&bdquo;{details.notes}&rdquo;</span>}
                   </Row>
                 </dl>
                 <Actions>
                   <Button size="lg" onClick={() => setStep("done")}>
-                    Book my fitting
+                    Lefoglalom
                   </Button>
                   <BackButton onClick={() => setStep(2)} />
                 </Actions>
@@ -162,13 +162,13 @@ export function BookingFlow() {
             )}
 
             {done && slot && (
-              <StepFrame title="We’ll see you then" heading={heading}>
+              <StepFrame title="Szeretettel várunk" heading={heading}>
                 <p className="font-serif text-2xl font-medium text-pretty">
-                  At the studio, {studio.address}, {studio.city}
+                  A szalonban: {studio.address}, {studio.city}
                 </p>
                 <p className="mt-4 max-w-xl text-lead text-pretty text-fg-muted">
-                  We&rsquo;ll email {details.email} to confirm. Bring up to {studio.guests} guests, and shoes close to the
-                  heel height you&rsquo;ll wear on the day.
+                  A megerősítést elküldjük ide: {details.email}. Legfeljebb {studio.guests} főt hozhatsz magaddal, és ha
+                  teheted, hozz egy olyan sarkú cipőt, amilyet a nagy napon viselsz majd.
                 </p>
                 <Actions>
                   <button
@@ -176,9 +176,9 @@ export function BookingFlow() {
                     onClick={() => downloadIcs(slot)}
                     className="inline-flex h-14 items-center rounded-full border border-fg/30 px-6 font-medium transition-colors hover:border-fg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
                   >
-                    Add to my calendar
+                    Hozzáadom a naptáramhoz
                   </button>
-                  <TextLink href={routes.collection}>Back to the collection</TextLink>
+                  <TextLink href={routes.collection}>Vissza a kollekcióhoz</TextLink>
                 </Actions>
               </StepFrame>
             )}
@@ -191,17 +191,17 @@ export function BookingFlow() {
 
 const railItem = "w-20 shrink-0 sm:w-28 lg:w-40";
 
-// Her chosen gowns, standing on the dark band like the stylist's rail, with
+// Her chosen gowns, standing on the dark band like the studio's rail, with
 // an empty dashed place after them while there's room for another.
 function GownRail({ gowns }: { gowns: Gown[] }) {
   return (
     <div className="flex items-end gap-6">
       {!gowns.length && (
         <p className="max-w-xs text-sm text-pretty text-inverse-fg-muted lg:text-right">
-          No gowns chosen yet? That&rsquo;s fine: your stylist will help you choose.
+          Még nem választottál ruhát? Semmi gond, a próbán segítünk.
         </p>
       )}
-      <ul aria-label="Your gowns" className="-mx-6 flex gap-3 overflow-x-auto px-6 pb-1 [scrollbar-width:none] lg:mx-0 lg:px-0">
+      <ul aria-label="A ruháid" className="-mx-6 flex gap-3 overflow-x-auto px-6 pb-1 [scrollbar-width:none] lg:mx-0 lg:px-0">
         {gowns.map((g) => (
           <li key={g.slug} className={railItem}>
             <div className="relative aspect-[3/4] overflow-hidden rounded-card-inner bg-shade">
@@ -217,7 +217,7 @@ function GownRail({ gowns }: { gowns: Gown[] }) {
                 <Plus aria-hidden size={24} strokeWidth={1.5} />
               </span>
               <span className="mt-2 block font-serif text-base font-medium whitespace-nowrap text-inverse-fg-muted transition-colors group-hover:text-inverse-fg sm:text-xl">
-                {gowns.length ? "Add a gown" : "Choose gowns"}
+                {gowns.length ? "Még egy ruha" : "Válassz ruhát"}
               </span>
             </Link>
           </li>
@@ -254,14 +254,14 @@ function BackButton({ onClick }: { onClick: () => void }) {
       onClick={onClick}
       className="font-medium underline decoration-current/30 underline-offset-[6px] transition-colors hover:decoration-current focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
     >
-      Back
+      Vissza
     </button>
   );
 }
 
 type RowProps = { label: string; onChange: () => void; changeLabel?: string; children: ReactNode };
 
-function Row({ label, onChange, changeLabel = "Change", children }: RowProps) {
+function Row({ label, onChange, changeLabel = "Módosítás", children }: RowProps) {
   return (
     <div className="grid gap-1 py-5 sm:grid-cols-[10rem_minmax(0,1fr)_auto] sm:gap-6">
       <dt className="text-sm text-fg-muted">{label}</dt>
@@ -298,8 +298,8 @@ function ReachYou({ heading, details, onChange, onBack, onContinue }: ReachProps
   const submit = (e: FormEvent) => {
     e.preventDefault();
     const next: typeof errors = {};
-    if (!details.name.trim()) next.name = "Please add your name.";
-    if (!/^\S+@\S+\.\S+$/.test(details.email.trim())) next.email = "Please add an email we can confirm your fitting to.";
+    if (!details.name.trim()) next.name = "Add meg a neved.";
+    if (!/^\S+@\S+\.\S+$/.test(details.email.trim())) next.email = "Adj meg egy e-mail-címet, ahová a megerősítést küldhetjük.";
     setErrors(next);
     if (next.name) document.getElementById("name")?.focus();
     else if (next.email) document.getElementById("email")?.focus();
@@ -307,14 +307,14 @@ function ReachYou({ heading, details, onChange, onBack, onContinue }: ReachProps
   };
 
   return (
-    <StepFrame title="How to reach you" heading={heading}>
+    <StepFrame title="Hogyan érünk el?" heading={heading}>
       <form noValidate onSubmit={submit}>
-        <p className="max-w-lg text-pretty text-fg-muted">Just a name and an email, so we can confirm your fitting.</p>
+        <p className="max-w-lg text-pretty text-fg-muted">Csak a neved és az e-mail-címed kell, hogy megerősíthessük a ruhapróbát.</p>
         <div className="mt-8 grid max-w-2xl gap-5 sm:grid-cols-2">
-          <Field id="name" label="Name" error={errors.name}>
+          <Field id="name" label="Név" error={errors.name}>
             <input id="name" autoComplete="name" value={details.name} onChange={set("name")} className={input} {...errorProps("name", errors.name)} />
           </Field>
-          <Field id="email" label="Email" error={errors.email}>
+          <Field id="email" label="E-mail-cím" error={errors.email}>
             <input
               id="email"
               type="email"
@@ -329,12 +329,12 @@ function ReachYou({ heading, details, onChange, onBack, onContinue }: ReachProps
 
         <details open={hasExtras} className="group mt-10 max-w-2xl border-t border-fg/10 pt-6">
           <summary className="cursor-pointer list-none font-medium focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus [&::-webkit-details-marker]:hidden">
-            <span className="underline decoration-current/30 underline-offset-[6px] group-hover:decoration-current">Tell us about you and your occasion</span>
-            <span className="text-fg-muted"> (optional)</span>
+            <span className="underline decoration-current/30 underline-offset-[6px] group-hover:decoration-current">Mesélj magadról és az alkalomról</span>
+            <span className="text-fg-muted"> (nem kötelező)</span>
           </summary>
           <div className="mt-6 grid gap-5 sm:grid-cols-2">
             <fieldset className="sm:col-span-2">
-              <legend className="text-sm font-medium">The occasion</legend>
+              <legend className="text-sm font-medium">Az alkalom</legend>
               <div className="mt-2 flex flex-wrap gap-2">
                 {occasions.map((o) => (
                   <label
@@ -347,17 +347,17 @@ function ReachYou({ heading, details, onChange, onBack, onContinue }: ReachProps
                 ))}
               </div>
             </fieldset>
-            <Field id="eventDate" label="Date of the event">
+            <Field id="eventDate" label="Az alkalom dátuma">
               <input id="eventDate" type="date" value={details.eventDate} onChange={set("eventDate")} className={input} />
             </Field>
-            <Field id="size" label="Your usual size">
-              <input id="size" placeholder="e.g. US 8" value={details.size} onChange={set("size")} className={input} />
+            <Field id="size" label="A szokásos méreted">
+              <input id="size" placeholder="pl. 38" value={details.size} onChange={set("size")} className={input} />
             </Field>
-            <Field id="notes" label="Anything else" className="sm:col-span-2">
+            <Field id="notes" label="Bármi más" className="sm:col-span-2">
               <textarea
                 id="notes"
                 rows={3}
-                placeholder="Styles you love, a due date, anything that helps"
+                placeholder="Kedvenc fazonok, a szülés várható ideje, bármi, ami segít"
                 value={details.notes}
                 onChange={set("notes")}
                 className={`${input} h-auto py-3`}
@@ -368,7 +368,7 @@ function ReachYou({ heading, details, onChange, onBack, onContinue }: ReachProps
 
         <Actions>
           <Button size="lg" type="submit">
-            Continue
+            Tovább
           </Button>
           <BackButton onClick={onBack} />
         </Actions>
@@ -401,7 +401,7 @@ function Field({ id, label, error, className = "", children }: FieldProps) {
   );
 }
 
-// Mock booking: offer the fitting as a calendar file so "Add to my calendar"
+// Mock booking: offer the fitting as a calendar file so "Hozzáadom a naptáramhoz"
 // still works without a backend.
 function downloadIcs(slot: Slot) {
   const stamp = (date: string, time: string) => `${date.replaceAll("-", "")}T${time.replace(":", "").padStart(4, "0")}00`;
@@ -413,13 +413,13 @@ function downloadIcs(slot: Slot) {
     `UID:${slot.date}-${slot.time}@magicmoment`,
     `DTSTART:${stamp(slot.date, slot.time)}`,
     `DTEND:${stamp(slot.date, endOf(slot.time))}`,
-    "SUMMARY:Fitting at Magic Moment",
+    "SUMMARY:Ruhapróba – Magic Moment",
     `LOCATION:${studio.address}, ${studio.city}`,
     "END:VEVENT",
     "END:VCALENDAR",
   ].join("\r\n");
-  const url = URL.createObjectURL(new Blob([ics], { type: "text/calendar" }));
-  const a = Object.assign(document.createElement("a"), { href: url, download: "magic-moment-fitting.ics" });
+  const url = URL.createObjectURL(new Blob([ics], { type: "text/calendar;charset=utf-8" }));
+  const a = Object.assign(document.createElement("a"), { href: url, download: "magic-moment-ruhaproba.ics" });
   a.click();
   URL.revokeObjectURL(url);
 }

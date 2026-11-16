@@ -4,8 +4,8 @@ import { SiteFooter } from "@/components/landing/site-footer";
 import { SiteHeader } from "@/components/landing/site-header";
 
 export const metadata: Metadata = {
-  title: "Book a fitting — Magic Moment",
-  description: "Book a free 90-minute private fitting. Choose a time, bring up to 3 guests, and try on the gowns you picked.",
+  title: "Ruhapróba foglalása – Magic Moment",
+  description: "Ingyenes, 90 perces ruhapróba a szalonban. Válassz időpontot, hozz magaddal legfeljebb 3 főt, és próbáld fel a kiválasztott ruhákat.",
 };
 
 export default function BookPage() {

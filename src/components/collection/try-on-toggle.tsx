@@ -14,7 +14,7 @@ export function TryOnToggle({ slug, name }: { slug: string; name: string }) {
     if (blocked) return;
     toggle(slug);
     const count = list.length + (on ? -1 : 1);
-    announce(on ? `${name} removed from your try-on list.` : `${name} added to your try-on list, ${count} of ${TRY_ON_LIMIT}.`);
+    announce(on ? `${name} lekerült a próbalistádról.` : `${name} felkerült a próbalistádra (${count}/${TRY_ON_LIMIT}).`);
   };
 
   return (
@@ -34,12 +34,12 @@ export function TryOnToggle({ slug, name }: { slug: string; name: string }) {
         }`}
       >
         {on ? <Check aria-hidden size={16} strokeWidth={1.75} /> : <Plus aria-hidden size={16} strokeWidth={1.75} />}
-        {on ? "On your try-on list" : blocked ? "Your list is full" : "Try this on"}
+        {on ? "A próbalistádon" : blocked ? "Megtelt a listád" : "Próbalistára teszem"}
       </button>
       <p id={`try-on-note-${slug}`} className="mt-3 max-w-xs text-sm text-pretty text-inverse-fg-muted">
         {blocked
-          ? `Remove a gown from your list below to add ${name}.`
-          : `Choose up to ${TRY_ON_LIMIT} gowns to try at your fitting. Your list is saved on this device.`}
+          ? "Vegyél le egy ruhát a lenti listáról, hogy helyet csinálj neki."
+          : `Legfeljebb ${TRY_ON_LIMIT} ruhát választhatsz a ruhapróbára. A listád ebben a böngészőben megmarad.`}
       </p>
     </div>
   );

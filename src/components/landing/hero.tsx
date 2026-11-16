@@ -5,6 +5,7 @@ import { Container } from "@/components/ui/container";
 import { TextLink } from "@/components/ui/text-link";
 import { studio } from "@/data/landing";
 import { routes } from "@/lib/routes";
+import { formatPrice } from "@/lib/price";
 
 export function Hero() {
   return (
@@ -13,7 +14,7 @@ export function Hero() {
         {/* Colour grade is baked into the file; only legibility shading is added here. */}
         <Image
           src={heroImage}
-          alt="A bride in a lace gown lifting the edge of her long lace veil"
+          alt="Csipkeruhás menyasszony, aki hosszú csipkefátyla szélét emeli"
           fill
           placeholder="blur"
           sizes="100vw"
@@ -30,20 +31,20 @@ export function Hero() {
 
       <Container data-hero-content className="pt-40 pb-12 lg:pb-16">
         <h1 data-hero-headline data-intro className="-ml-[0.04em] max-w-5xl text-[3.25rem] font-display leading-none font-normal tracking-[-0.02em] text-balance sm:text-7xl lg:text-[6.5rem]">
-          Designer wedding gowns to rent, from{" "}
-          <span className="tabular-nums">${studio.rentalFrom}</span>
+          Kölcsönözhető menyasszonyi ruhák, rád szabva
         </h1>
         <div className="mt-10 flex flex-col gap-8 lg:mt-14 lg:flex-row lg:items-end lg:justify-between">
           <p data-intro="fade" className="max-w-lg text-lead text-pretty text-inverse-fg-muted">
-            Choose from {studio.gownCount} gowns, try them on at a free {studio.fittingMinutes}-minute
-            fitting, and we tailor your favourite to fit. Alterations and cleaning included.
+            Válassz {studio.gownCount} ruhánk közül, próbáld fel őket egy ingyenes, {studio.fittingMinutes} perces
+            ruhapróbán, a kedvencedet pedig méretre igazítjuk. A kölcsönzés már{" "}
+            <span className="tabular-nums">{formatPrice(studio.rentalFrom)}</span>-tól elérhető, a tisztítással együtt.
           </p>
           <div data-intro="fade" className="flex flex-wrap items-center gap-x-8 gap-y-5">
             <ButtonLink href={routes.booking} size="lg">
-              Book a free fitting
+              Gyere el ruhapróbára
             </ButtonLink>
             <TextLink href={routes.collection} className="text-inverse-fg">
-              Browse all {studio.gownCount} gowns
+              Mind a {studio.gownCount} ruha
             </TextLink>
           </div>
         </div>

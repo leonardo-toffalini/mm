@@ -73,12 +73,10 @@ components:
     padding: "0 24px 0 28px"
     height: "56px"
   gown-card:
-    backgroundColor: "{colors.sand}"
-    textColor: "{colors.olive-ink}"
+    backgroundColor: "{colors.olive-ink}"
+    textColor: "{colors.parchment}"
     rounded: "{rounded.card}"
-    padding: "{spacing.card}"
-  gown-card-hover:
-    backgroundColor: "{colors.sand-hover}"
+    padding: "1.25rem"
   testimonial-card:
     backgroundColor: "{colors.sand}"
     textColor: "{colors.olive-ink}"
@@ -189,18 +187,18 @@ Tactile and precious: like polished brass hardware and fabric swatches. There ar
 - **Text link:** a medium-weight underlined link with the same trailing arrow, used for secondary actions ("Browse all gowns"). The underline strengthens on hover.
 
 ### Cards / Containers
-- **Corner Style:** rounded card corners (1.5rem), with photographs inset at the inner radius (1rem).
-- **Background:** sand, deepening to deep sand on hover.
+- **Corner Style:** rounded card corners (1.5rem); anything inset uses the inner radius (1rem).
+- **Background:** sand on testimonial cards, deepening to deep sand on hover. Gown cards are the photograph itself (see Gown Card).
 - **Shadow Strategy:** none (see Elevation & Depth).
 - **Border:** none.
-- **Internal Padding:** a 0.5rem frame around the photograph on gown cards; 2rem on testimonial cards.
+- **Internal Padding:** 2rem on testimonial cards; 0.75rem to 1.25rem (2rem when featured) around the text on gown cards.
 
 ### Navigation
 - **Style:** Jost at body size in parchment over the hero, olive ink once the header is solid. Links underline on hover with an 8px offset at 40% opacity.
 - **Mobile:** below 768px the section links are hidden; the wordmark and, after the hero, the booking button remain.
 
 ### Gown Card (signature)
-A paper swatch: a tall (3:4) photograph framed in sand, with the gown's name in Cormorant, a "from $" price in tabular numerals, and the silhouette and size range in muted text. The first gown is featured at double size.
+The photograph is the card: a tall (3:4) photo with rounded corners and film grain, shaded from the bottom with an olive-ink gradient, like the room openers. Over the shade, in parchment, sit the gown's name in Cormorant, a "from" price in tabular numerals, and the silhouette and size range in muted parchment. The shade reaches higher on narrow cards, keyed to the card's own width, so the text stays readable on bright photos. On hover the photo grows slightly. The first gown is featured at double size.
 
 ### Brush Stroke (signature)
 A sage line drawn as you scroll past "How it works", entering from the left below the steps and leaving off the right edge. On wide screens it loops once beside the heading; below 1280px it runs up the right edge instead.

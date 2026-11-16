@@ -55,7 +55,7 @@ export function HowItWorks() {
         className="absolute -top-[200px] right-0 -z-10 h-[calc(100%+510px)] w-full max-w-[400px] overflow-visible text-tint xl:hidden"
       />
       <Container>
-        <SectionHeading tone="tint" title="Three visits, from first fitting to your wedding day" />
+        <SectionHeading tone="tint" title="Háromszor találkozunk, az első ruhapróbától az esküvőig" />
         <ol className="mt-16 grid gap-14 xl:grid-cols-3 xl:gap-10">
           {steps.map((step, i) => {
             const Icon = icons[i];

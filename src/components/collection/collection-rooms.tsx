@@ -8,6 +8,7 @@ import { gownsIn, orderQuery, orders, rooms, sortGowns, type Order, type Room } 
 import { studio } from "@/data/landing";
 import { useOrder } from "@/lib/use-order";
 import { GownCard } from "./gown-card";
+import { formatPrice } from "@/lib/price";
 
 /**
  * The collection walked room by room: each occasion opens on a full-bleed
@@ -134,7 +135,7 @@ function RoomOpener({ room, first }: { room: Room; first: boolean }) {
         <div {...motion.text}>
           <p className="mt-6 max-w-lg text-lead text-pretty text-inverse-fg-muted">{room.intro}</p>
           <p className="mt-3 text-sm tabular-nums text-inverse-fg">
-            {gowns.length} gowns · from ${from} for {studio.rentalDays} days, tailoring and cleaning included
+            {gowns.length} ruha · {formatPrice(from)}-tól {studio.rentalDays} napra, igazítással és tisztítással együtt
           </p>
         </div>
       </Container>
@@ -149,7 +150,7 @@ function RoomBar({ current, order, onOrder }: BarProps) {
   return (
     <div className="sticky top-[76px] z-10 border-b border-fg/10 bg-page/90 backdrop-blur-md">
       <Container className="flex h-14 items-center justify-between gap-2 sm:gap-4">
-        <nav aria-label="Rooms" className="flex items-baseline gap-3 sm:gap-8">
+        <nav aria-label="Kategóriák" className="flex items-baseline gap-3 sm:gap-8">
           {rooms.map((room) => {
             const active = room.occasion === current;
             return (
@@ -167,7 +168,7 @@ function RoomBar({ current, order, onOrder }: BarProps) {
         </nav>
         <label className="flex items-center gap-2 text-sm">
           {/* On phones there's no room for the word, so an icon says "sort". */}
-          <span className="sr-only text-fg-muted sm:not-sr-only">Sort</span>
+          <span className="sr-only text-fg-muted sm:not-sr-only">Rendezés</span>
           <span className="relative flex items-center">
             <ArrowDownUp aria-hidden size={16} strokeWidth={1.75} className="pointer-events-none absolute left-2.5 max-[359px]:hidden sm:hidden" />
             <select

@@ -38,6 +38,8 @@ export type Gown = {
 export type Room = {
   occasion: Occasion;
   name: string;
+  /** The room's gowns in a phrase, singular: "Az összes menyasszonyi ruha". */
+  gownKind: string;
   intro: string;
   image: StaticImageData;
   imageAlt: string;
@@ -48,26 +50,29 @@ export type Room = {
 export const rooms: Room[] = [
   {
     occasion: "bridal",
-    name: "Bridal",
-    intro: "Ball gowns, lace sheaths and soft A-lines, each tailored to you before the day.",
+    name: "Esküvő",
+    gownKind: "menyasszonyi ruha",
+    intro: "Hercegnős, csipkés és könnyed A-vonalú ruhák, mindegyiket a nagy nap előtt rád igazítjuk.",
     image: roomBridal, // unsplash.com/photos/EeDaZ4So3R0
-    imageAlt: "The lace back of a wedding gown, with a row of covered buttons",
+    imageAlt: "Csipkés menyasszonyi ruha háta, bevont gombok sorával",
     focus: "60% 40%",
   },
   {
     occasion: "prom",
-    name: "Prom",
-    intro: "Satin, tulle and full skirts for the night, fitted so you can dance in them.",
+    name: "Szalagavató",
+    gownKind: "szalagavatós ruha",
+    intro: "Szatén, tüll és bő szoknyák a nagy estére, úgy igazítva, hogy egész éjjel táncolhass bennük.",
     image: roomProm, // unsplash.com/photos/7dCbl4BfoRc
-    imageAlt: "A row of friends in prom dresses wearing wrist corsages",
+    imageAlt: "Báli ruhás barátnők egymás mellett, csuklójukon virágdísszel",
     focus: "50% 85%", // low enough to show the dresses, not just the corsages
   },
   {
     occasion: "maternity",
-    name: "Maternity",
-    intro: "Empire waists and soft drapes, altered close to the day so they fit as you are then.",
+    name: "Kismama",
+    gownKind: "kismama menyasszonyi ruha",
+    intro: "Empire vonalú, lágy esésű ruhák, amelyeket közvetlenül az esküvő előtt igazítunk rád, hogy akkor is tökéletesen álljanak.",
     image: roomMaternity, // unsplash.com/photos/r5b5CzrePow
-    imageAlt: "A pregnant woman in a white gown sitting on rocks by the sea at sunset",
+    imageAlt: "Fehér ruhás kismama a tengerparti sziklákon ül naplementekor",
     focus: "45% 50%",
   },
 ];
@@ -77,72 +82,72 @@ export const gowns: Gown[] = [
     slug: "seraphine",
     name: "Séraphine",
     occasion: "bridal",
-    silhouette: "Ball gown with cathedral train",
-    sizes: "US 2–16",
-    rentalFrom: 380,
+    silhouette: "Hercegnős fazon, katedrális uszállyal",
+    sizes: "34–48",
+    rentalFrom: 190_000,
     image: gownBed,
   },
   {
     slug: "aurelie",
     name: "Aurélie",
     occasion: "bridal",
-    silhouette: "Fit and flare, French lace",
-    sizes: "US 0–14",
-    rentalFrom: 290,
+    silhouette: "Trombita fazon, francia csipke",
+    sizes: "32–46",
+    rentalFrom: 145_000,
     image: gownMirror,
   },
   {
     slug: "celeste",
     name: "Céleste",
     occasion: "bridal",
-    silhouette: "Mermaid, beaded tulle",
-    sizes: "US 2–12",
-    rentalFrom: 340,
+    silhouette: "Sellő fazon, gyöngyhímzéses tüll",
+    sizes: "34–44",
+    rentalFrom: 170_000,
     image: gownHanger,
   },
   {
     slug: "margot",
     name: "Margot",
     occasion: "bridal",
-    silhouette: "Strapless crepe column",
-    sizes: "US 0–18",
-    rentalFrom: 260,
+    silhouette: "Pánt nélküli, egyenes vonalú krepp",
+    sizes: "32–50",
+    rentalFrom: 130_000,
     image: gownMannequin,
   },
   {
     slug: "odette",
     name: "Odette",
     occasion: "bridal",
-    silhouette: "Backless A-line, soft tulle",
-    sizes: "US 2–16",
-    rentalFrom: 310,
+    silhouette: "Nyitott hátú, A-vonalú, puha tüll",
+    sizes: "34–48",
+    rentalFrom: 155_000,
     image: beachBride,
   },
   {
     slug: "juliette",
     name: "Juliette",
     occasion: "bridal",
-    silhouette: "Strapless satin A-line",
-    sizes: "US 0–16",
-    rentalFrom: 330,
+    silhouette: "Pánt nélküli, A-vonalú szatén",
+    sizes: "32–48",
+    rentalFrom: 165_000,
     image: gownSatinAline, // unsplash.com/photos/HJWLIFZfozg
   },
   {
     slug: "isadora",
     name: "Isadora",
     occasion: "bridal",
-    silhouette: "Lace mermaid with chapel train",
-    sizes: "US 2–14",
-    rentalFrom: 420,
+    silhouette: "Csipkés sellő fazon, rövid uszállyal",
+    sizes: "34–46",
+    rentalFrom: 210_000,
     image: gownLaceMermaid, // unsplash.com/photos/0kd8P7rYk0A
   },
   {
     slug: "rosalind",
     name: "Rosalind",
     occasion: "bridal",
-    silhouette: "Off-shoulder lace, full skirt",
-    sizes: "US 0–18",
-    rentalFrom: 300,
+    silhouette: "Ejtett vállú csipke, bő szoknyarész",
+    sizes: "32–50",
+    rentalFrom: 150_000,
     image: gownOffShoulder, // unsplash.com/photos/so48cPZInjQ
     focus: "50% 25%",
   },
@@ -150,36 +155,36 @@ export const gowns: Gown[] = [
     slug: "colette",
     name: "Colette",
     occasion: "bridal",
-    silhouette: "Long-sleeve lace sheath",
-    sizes: "US 2–16",
-    rentalFrom: 360,
+    silhouette: "Hosszú ujjú, testhez simuló csipke",
+    sizes: "34–48",
+    rentalFrom: 180_000,
     image: gownLaceSleeves, // unsplash.com/photos/j4__wyKtjJk
   },
   {
     slug: "lavande",
     name: "Lavande",
     occasion: "prom",
-    silhouette: "Lavender ball gown, appliqué flowers",
-    sizes: "US 0–14",
-    rentalFrom: 220,
+    silhouette: "Levendulaszínű, bő szoknyás, virágrátétekkel",
+    sizes: "32–46",
+    rentalFrom: 110_000,
     image: promLilac, // unsplash.com/photos/1N3L5vzgtxw
   },
   {
     slug: "camille",
     name: "Camille",
     occasion: "prom",
-    silhouette: "Blush tulle, off-shoulder",
-    sizes: "US 0–16",
-    rentalFrom: 180,
+    silhouette: "Púderrózsaszín tüll, ejtett vállal",
+    sizes: "32–48",
+    rentalFrom: 90_000,
     image: promPink, // unsplash.com/photos/uGViIpoEEoE
   },
   {
     slug: "iris",
     name: "Iris",
     occasion: "prom",
-    silhouette: "Bias-cut satin slip",
-    sizes: "US 0–12",
-    rentalFrom: 140,
+    silhouette: "Ferdén szabott, kombiné fazonú szatén",
+    sizes: "32–44",
+    rentalFrom: 70_000,
     image: promSlip, // unsplash.com/photos/kyGHtudTPiw
     focus: "52% 60%",
   },
@@ -187,9 +192,9 @@ export const gowns: Gown[] = [
     slug: "elodie",
     name: "Élodie",
     occasion: "maternity",
-    silhouette: "Empire-waist lace midi",
-    sizes: "US 2–18",
-    rentalFrom: 280,
+    silhouette: "Empire vonalú csipke midiruha",
+    sizes: "34–50",
+    rentalFrom: 140_000,
     image: maternityLace, // unsplash.com/photos/xdWc2cX_U8I
     focus: "62% 50%",
   },
@@ -197,18 +202,18 @@ export const gowns: Gown[] = [
     slug: "clemence",
     name: "Clémence",
     occasion: "maternity",
-    silhouette: "Chiffon wrap, bell sleeves",
-    sizes: "US 2–20",
-    rentalFrom: 250,
+    silhouette: "Átlapolt sifon, harangujjal",
+    sizes: "34–52",
+    rentalFrom: 125_000,
     image: maternityWhite, // unsplash.com/photos/wFKoYkJxjxM
   },
   {
     slug: "noemie",
     name: "Noémie",
     occasion: "maternity",
-    silhouette: "Pleated empire gown",
-    sizes: "US 4–20",
-    rentalFrom: 240,
+    silhouette: "Rakott, empire vonalú ruha",
+    sizes: "36–52",
+    rentalFrom: 120_000,
     image: maternityEmpire, // unsplash.com/photos/b6nm9mLAiL8
   },
 ];
@@ -216,9 +221,9 @@ export const gowns: Gown[] = [
 export const gownsIn = (occasion: Occasion) => gowns.filter((g) => g.occasion === occasion);
 
 export const orders = {
-  featured: "Our picks",
-  asc: "Price: low",
-  desc: "Price: high",
+  featured: "Ajánlott",
+  asc: "Ár: növekvő",
+  desc: "Ár: csökkenő",
 };
 export type Order = keyof typeof orders;
 

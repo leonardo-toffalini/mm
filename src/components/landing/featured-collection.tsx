@@ -11,8 +11,8 @@ export function FeaturedCollection() {
     <section id="gowns" className="scroll-mt-[72px] py-24 lg:py-32">
       <Container>
         <SectionHeading
-          title={`Five of our ${studio.gownCount} gowns, each tailored to fit you`}
-          action={<TextLink href={routes.collection}>See all {studio.gownCount} gowns</TextLink>}
+          title="Néhány kedvenc a kollekcióból"
+          action={<TextLink href={routes.collection}>Mind a {studio.gownCount} ruha</TextLink>}
         />
         <ul className="mt-12 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
           <li className="col-span-2 lg:row-span-2">

@@ -5,10 +5,10 @@ import { routes } from "@/lib/routes";
 
 // The section links point at the home page so they work from every page.
 const navItems = [
-  { label: "Gowns", href: routes.collection },
-  { label: "How it works", href: "/#how-it-works" },
-  { label: "Reviews", href: "/#reviews" },
-  { label: "Visit", href: "#visit" },
+  { label: "Kollekció", href: routes.collection },
+  { label: "A kölcsönzés menete", href: "/#how-it-works" },
+  { label: "Vélemények", href: "/#reviews" },
+  { label: "Kapcsolat", href: "#visit" },
 ];
 
 // Fixed over the hero; page motion makes the bar solid (data-solid) once the
@@ -30,12 +30,12 @@ export function SiteHeader({ intro = true, solid = false, book = true }: Props) 
           <Link
             href={routes.home}
             data-logo={intro || undefined}
-            className="-ml-[0.03em] block origin-top-left whitespace-nowrap font-display text-2xl min-[375px]:text-3xl sm:text-4xl"
+            className="-ml-[0.03em] block origin-[0_62%] whitespace-nowrap font-display text-2xl min-[375px]:text-3xl sm:text-4xl"
           >
             Magic Moment
           </Link>
         </div>
-        <nav aria-label="Main" {...fade} className="hidden items-center gap-8 md:flex">
+        <nav aria-label="Főmenü" {...fade} className="hidden items-center gap-8 md:flex xl:mr-10 xl:ml-auto">
           {navItems.map((item) => (
             <Link
               key={item.label}
@@ -63,9 +63,9 @@ export function SiteHeader({ intro = true, solid = false, book = true }: Props) 
             <ButtonLink href={routes.booking} nudge className="whitespace-nowrap">
               {/* The full label doesn't fit beside the wordmark on phones. */}
               <span className="sm:hidden">
-                Book<span className="sr-only"> a fitting</span>
+                Ruhapróba<span className="sr-only"> foglalása</span>
               </span>
-              <span className="hidden sm:inline">Book a fitting</span>
+              <span className="hidden sm:inline">Ruhapróbát foglalok</span>
             </ButtonLink>
           </div>
         </div>

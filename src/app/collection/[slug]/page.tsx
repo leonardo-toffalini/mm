@@ -6,6 +6,7 @@ import { SiteFooter } from "@/components/landing/site-footer";
 import { SiteHeader } from "@/components/landing/site-header";
 import { PageMotion } from "@/components/motion/page-motion";
 import { findGown, gowns } from "@/data/gowns";
+import { formatPrice } from "@/lib/price";
 
 // Every real gown is prerendered (below), so navigating to one is instant.
 // Unknown slugs must render on request to return a 404, and those aren't
@@ -20,8 +21,8 @@ export async function generateMetadata({ params }: PageProps<"/collection/[slug]
   const gown = findGown((await params).slug);
   if (!gown) return {};
   return {
-    title: `${gown.name} — Magic Moment`,
-    description: `${gown.silhouette}, sizes ${gown.sizes}, from $${gown.rentalFrom} to rent. Try it on at a free fitting.`,
+    title: `${gown.name} – Magic Moment`,
+    description: `${gown.silhouette}, méret: ${gown.sizes}. Kölcsönzés ${formatPrice(gown.rentalFrom)}-tól, ingyenes ruhapróbával.`,
   };
 }
 
