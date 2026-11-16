@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Fraunces, Jost } from "next/font/google";
 import "lenis/dist/lenis.css";
+import { IntentPreload } from "@/components/intent-preload";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -52,6 +53,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           Ugrás a tartalomra
         </a>
         {children}
+        <IntentPreload />
       </body>
     </html>
   );
