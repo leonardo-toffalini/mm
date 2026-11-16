@@ -17,9 +17,10 @@ const navItems = [
 // header holds still (stepping between gowns would otherwise replay it on every
 // page) and the booking button shows from the start. Pages with no photo hero
 // to sit over (the gown page) pass solid so the bar is solid from the start.
-type Props = { intro?: boolean; solid?: boolean };
+// The booking page passes book={false}: its own steps are the booking action.
+type Props = { intro?: boolean; solid?: boolean; book?: boolean };
 
-export function SiteHeader({ intro = true, solid = false }: Props) {
+export function SiteHeader({ intro = true, solid = false, book = true }: Props) {
   const fade = intro ? { "data-intro": "fade" } : {};
   return (
     <header data-header data-solid={solid || undefined} data-tone="dark" className="fixed inset-x-0 top-0 z-20 text-inverse-fg">
@@ -49,7 +50,7 @@ export function SiteHeader({ intro = true, solid = false }: Props) {
             so the header button only fades in once the hero has gone (the inner
             div, because the intro animation writes inline opacity on the outer
             one). */}
-        <div {...fade}>
+        <div {...fade} hidden={!book}>
           {/* Only one gold booking button per view: the try-on list's takes over
               while it shows, and on wide screens the gown page has its own. */}
           <div

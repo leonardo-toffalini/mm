@@ -26,6 +26,7 @@
   --palette-dark-soft: #2b2e1c; /* secondary text on mid */
   --palette-light-deep-hover: #dcd0b6;
   --palette-accent-hover: #d4ad5c;
+  --palette-error: #9b3b2a; /* madder brick */
 }
 
 /*
@@ -67,6 +68,9 @@
   --color-accent-hover: var(--palette-accent-hover);
   --color-on-accent: var(--palette-dark); /* 5.9:1 on accent */
   --color-focus: var(--focus);
+
+  /* Error: form messages and invalid fields, on page and surface. */
+  --color-error: var(--palette-error); /* 5.9:1 on page, 5.1:1 on surface */
 }
 
 @theme {
