@@ -8,13 +8,17 @@ export type Day = { date: string; slots: { time: string; open: boolean }[] };
 const iso = (d: Date) =>
   `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 
-/** The studio's open days (Mon–Sat) for the given number of weeks after `today` (YYYY-MM-DD). */
-export function openDays(today: string, weeks = 2): Day[] {
+/** The studio's open days (Mon–Sat) from tomorrow up to one month after `today` (YYYY-MM-DD). */
+export function openDays(today: string): Day[] {
   const start = new Date(`${today}T12:00:00`);
+  const end = new Date(start);
+  end.setMonth(start.getMonth() + 1);
+  if (end.getDate() !== start.getDate()) end.setDate(0); // Jan 31 → Feb 28, not Mar 3
   const days: Day[] = [];
-  for (let i = 1; days.length < weeks * 6; i++) {
+  for (let i = 1; ; i++) {
     const d = new Date(start);
     d.setDate(start.getDate() + i);
+    if (d > end) break;
     if (d.getDay() === 0) continue; // closed Sunday
     const date = iso(d);
     days.push({ date, slots: SLOT_TIMES.map((time) => ({ time, open: !taken(date, time) })) });

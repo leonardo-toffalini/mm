@@ -6,7 +6,8 @@ import { dayParts, type Day } from "@/data/availability";
 export type Slot = { date: string; time: string };
 
 /** The open days split into weeks of six (Mon–Sat). */
-export const toWeeks = (days: Day[] | null) => (days ? [days.slice(0, 6), days.slice(6, 12)] : []);
+export const toWeeks = (days: Day[] | null) =>
+  Array.from({ length: Math.ceil((days?.length ?? 0) / 6) }, (_, i) => days!.slice(i * 6, i * 6 + 6));
 
 /** Hungarian date range: "nov. 18–23." within a month, "nov. 30. – dec. 5." across two. */
 export function range(from: string, to: string) {
