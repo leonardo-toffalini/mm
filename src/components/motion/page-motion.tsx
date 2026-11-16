@@ -50,13 +50,14 @@ export function PageMotion() {
       gsap.ticker.lagSmoothing(0);
 
       intro();
+      const undoReveals = reveals();
       heroScroll();
       header();
       solidHeader();
-      reveals();
       parallax();
 
       return () => {
+        undoReveals?.();
         gsap.ticker.remove(tick);
         lenis.destroy();
       };
@@ -170,6 +171,15 @@ function reveals() {
   if (items.length) revealItems(items);
   const media = gsap.utils.toArray<HTMLElement>("[data-reveal='media']");
   if (media.length) revealMedia(media);
+
+  // The tweens that show items and media start later, from scroll callbacks,
+  // outside the GSAP context, so reverting it alone would leave a page that
+  // React keeps alive between routes stuck in the hidden start state.
+  return () => {
+    const shown = [...items, ...media, ...media.map((el) => el.firstElementChild!)];
+    gsap.killTweensOf(shown);
+    gsap.set(shown, { clearProps: "transform,opacity,visibility,clipPath" });
+  };
 }
 
 function revealItems(items: HTMLElement[]) {
