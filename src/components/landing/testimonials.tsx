@@ -4,7 +4,7 @@ import { studio, testimonials } from "@/data/landing";
 
 export function Testimonials() {
   return (
-    <section id="reviews" className="py-24 lg:py-32">
+    <section id="reviews" className="scroll-mt-[72px] py-24 lg:py-32">
       <Container>
         <SectionHeading
           title={`Rated ${studio.rating} out of 5 by ${studio.reviewCount} brides`}

@@ -12,7 +12,7 @@ export default function Home() {
     <>
       <SiteHeader />
       {/* Clip sideways overflow (decorative strokes) without affecting vertical flow. */}
-      <main className="overflow-x-clip">
+      <main id="main" className="overflow-x-clip">
         <Hero />
         <FeaturedCollection />
         <HowItWorks />

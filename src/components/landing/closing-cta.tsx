@@ -27,14 +27,16 @@ export function ClosingCta() {
       </div>
       <Container className="flex flex-col items-start py-28 lg:py-40">
         <h2 data-reveal="heading" className="-ml-[0.04em] max-w-3xl text-5xl font-display leading-none font-normal tracking-[-0.02em] text-balance lg:text-7xl">
-          {/* One string, so line splitting keeps "90-minute" together. */}
-          {`Book your free ${studio.fittingMinutes}-minute fitting`}
+          Book your free{" "}
+          {/* Kept on one line: browsers otherwise break after the hyphen. */}
+          <span className="whitespace-nowrap">{studio.fittingMinutes}-minute</span> fitting
         </h2>
         <p data-reveal="item" className="mt-6 max-w-md text-lead text-pretty text-inverse-fg-muted">
-          Tuesday to Saturday at our Portland studio. Bring up to {studio.guests} guests and leave
-          with your shortlist.
+          Tuesday to Saturday at the studio. Try on up to five gowns for your wedding or prom, bring
+          up to {studio.guests} guests, and leave with your shortlist.
         </p>
-        <ButtonLink href={routes.booking} size="lg" data-reveal="item" className="mt-10">
+        {/* While the try-on list shows, its own button books (with the chosen gowns). */}
+        <ButtonLink href={routes.booking} size="lg" data-reveal="item" className="mt-10 [[data-try-on]_&]:hidden">
           Choose a time
         </ButtonLink>
       </Container>

@@ -43,7 +43,16 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <head>
         <script dangerouslySetInnerHTML={{ __html: motionBootstrap }} />
       </head>
-      <body className="min-h-full flex flex-col font-sans">{children}</body>
+      {/* Padding at the bottom while the try-on list is docked there. */}
+      <body className="min-h-full flex flex-col font-sans [[data-try-on]_&]:pb-[72px]">
+        <a
+          href="#main"
+          className="sr-only z-50 rounded-full bg-page px-4 py-2 font-medium text-fg focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
+        >
+          Skip to content
+        </a>
+        {children}
+      </body>
     </html>
   );
 }

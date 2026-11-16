@@ -8,7 +8,7 @@ export function SiteFooter() {
         <div>
           <p className="font-display text-3xl text-inverse-fg">Magic Moment</p>
           <p className="mt-3 max-w-xs text-sm leading-relaxed">
-            Designer wedding gowns to rent, tailored to fit, in Portland.
+            Bridal, prom and maternity gowns to rent, tailored to fit you.
           </p>
         </div>
         <address className="text-sm not-italic leading-7">

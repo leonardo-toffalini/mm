@@ -1,24 +1,11 @@
 // Mock content for the landing page until a backend exists.
-// Photos are from Unsplash (free to use under the Unsplash License).
-import type { StaticImageData } from "next/image";
-import beachBride from "@/assets/images/beach-bride.jpg";
-import gownBed from "@/assets/images/gown-bed.jpg";
-import gownHanger from "@/assets/images/gown-hanger.jpg";
-import gownMannequin from "@/assets/images/gown-mannequin.jpg";
-import gownMirror from "@/assets/images/gown-mirror.jpg";
+import { findGown, gowns, gownsIn, type Gown } from "./gowns";
 
-export type Gown = {
-  slug: string;
-  name: string;
-  silhouette: string;
-  sizes: string;
-  rentalFrom: number;
-  image: StaticImageData;
-};
+export type { Gown };
 
 export const studio = {
-  gownCount: 64,
-  rentalFrom: 260,
+  gownCount: gowns.length,
+  rentalFrom: Math.min(...gownsIn("bridal").map((g) => g.rentalFrom)),
   fittingMinutes: 90,
   rentalDays: 5,
   guests: 3,
@@ -31,48 +18,9 @@ export const studio = {
 };
 
 // The first gown is shown as the large featured card.
-export const featuredGowns: Gown[] = [
-  {
-    slug: "seraphine",
-    name: "Séraphine",
-    silhouette: "Ball gown with cathedral train",
-    sizes: "US 2–16",
-    rentalFrom: 380,
-    image: gownBed,
-  },
-  {
-    slug: "aurelie",
-    name: "Aurélie",
-    silhouette: "Fit and flare, French lace",
-    sizes: "US 0–14",
-    rentalFrom: 290,
-    image: gownMirror,
-  },
-  {
-    slug: "celeste",
-    name: "Céleste",
-    silhouette: "Mermaid, beaded tulle",
-    sizes: "US 2–12",
-    rentalFrom: 340,
-    image: gownHanger,
-  },
-  {
-    slug: "margot",
-    name: "Margot",
-    silhouette: "Strapless crepe column",
-    sizes: "US 0–18",
-    rentalFrom: 260,
-    image: gownMannequin,
-  },
-  {
-    slug: "odette",
-    name: "Odette",
-    silhouette: "Backless A-line, soft tulle",
-    sizes: "US 2–16",
-    rentalFrom: 310,
-    image: beachBride,
-  },
-];
+export const featuredGowns: Gown[] = ["seraphine", "aurelie", "celeste", "margot", "odette"].map(
+  (slug) => findGown(slug)!,
+);
 
 export const steps = [
   {

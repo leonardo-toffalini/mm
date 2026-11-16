@@ -39,7 +39,7 @@ export function HowItWorks() {
     // Not isolated: the stroke's -z-10 puts it behind the whole page.
     // Stroke heights are set explicitly: an SVG otherwise sizes itself from its
     // aspect ratio and ignores a bottom offset.
-    <section id="how-it-works" className="relative pt-24 pb-52 text-tint-fg xl:py-32">
+    <section id="how-it-works" className="relative scroll-mt-[72px] pt-24 pb-52 text-tint-fg xl:py-32">
       <BrushStroke
         points={wideStroke}
         size={[1500, 1120]}

@@ -39,10 +39,11 @@ export function PageMotion() {
 
     mm.add("(prefers-reduced-motion: reduce)", () => {
       document.documentElement.classList.remove("has-motion");
+      solidHeader();
     });
 
     mm.add("(prefers-reduced-motion: no-preference)", () => {
-      const lenis = new Lenis({ anchors: { offset: -72 } });
+      const lenis = new Lenis({ anchors: true });
       lenis.on("scroll", ScrollTrigger.update);
       const tick = (time: number) => lenis.raf(time * 1000);
       gsap.ticker.add(tick);
@@ -51,6 +52,7 @@ export function PageMotion() {
       intro();
       heroScroll();
       header();
+      solidHeader();
       reveals();
       parallax();
 
@@ -101,7 +103,7 @@ function intro() {
 // The hero photo lags behind the scroll while the copy lifts and fades.
 function heroScroll() {
   const hero = document.querySelector("[data-hero]");
-  if (!hero) return;
+  if (!hero?.querySelector("[data-hero-media]")) return;
   const scrollTrigger = { trigger: hero, start: "top top", end: "bottom top", scrub: true };
   gsap.to("[data-hero-media]", { yPercent: 30, ease: "none", scrollTrigger });
   gsap.to("[data-hero-content]", {
@@ -112,12 +114,10 @@ function heroScroll() {
   });
 }
 
-// The wordmark starts large and settles into the header; the header turns
-// solid once the hero has gone.
+// The wordmark starts large and settles into the header.
 function header() {
-  const bar = document.querySelector<HTMLElement>("[data-header]");
   const logo = document.querySelector("[data-logo]");
-  if (!bar || !logo) return;
+  if (!logo) return;
 
   gsap.fromTo(
     logo,
@@ -129,6 +129,13 @@ function header() {
       scrollTrigger: { start: 0, end: () => innerHeight * 0.4, scrub: 0.5, invalidateOnRefresh: true },
     },
   );
+}
+
+// The header turns solid once the hero has gone. Runs with reduced motion
+// too: the transparent bar is unreadable over the light sections.
+function solidHeader() {
+  const bar = document.querySelector<HTMLElement>("[data-header]");
+  if (!bar || !document.querySelector("[data-hero]")) return;
 
   ScrollTrigger.create({
     trigger: "[data-hero]",
@@ -156,15 +163,23 @@ function reveals() {
     });
   }
 
+  // GSAP warns about empty targets, so skip what a page doesn't have.
   const items = gsap.utils.toArray<HTMLElement>("[data-reveal='item']");
+  if (items.length) revealItems(items);
+  const media = gsap.utils.toArray<HTMLElement>("[data-reveal='media']");
+  if (media.length) revealMedia(media);
+}
+
+function revealItems(items: HTMLElement[]) {
   gsap.set(items, { y: 40, autoAlpha: 0 });
   ScrollTrigger.batch(items, {
     start: "top 90%",
     once: true,
     onEnter: (batch) => gsap.to(batch, { y: 0, autoAlpha: 1, duration: 1.1, stagger: 0.1, ease }),
   });
+}
 
-  const media = gsap.utils.toArray<HTMLElement>("[data-reveal='media']");
+function revealMedia(media: HTMLElement[]) {
   gsap.set(media, { clipPath: "inset(100% 0% 0% 0%)" });
   ScrollTrigger.batch(media, {
     start: "top 92%",

@@ -1,4 +1,4 @@
-// Booking and collection pages are planned but not built yet.
+// The booking page is planned but not built yet.
 export const routes = {
   home: "/",
   collection: "/collection",

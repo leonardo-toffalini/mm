@@ -1,0 +1,130 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-16T00:00:00Z",
+  "title": "Design System: Magic Moment",
+  "extensions": {
+    "colorMeta": {
+      "parchment": { "role": "neutral", "displayName": "Parchment", "canonical": "oklch(94.4% 0.017 84.6)", "tonalRamp": ["oklch(15% 0.006 84.6)", "oklch(25% 0.011 84.6)", "oklch(35% 0.015 84.6)", "oklch(45% 0.017 84.6)", "oklch(55% 0.017 84.6)", "oklch(70% 0.013 84.6)", "oklch(82% 0.008 84.6)", "oklch(95% 0.002 84.6)"] },
+      "sand": { "role": "neutral", "displayName": "Sand", "canonical": "oklch(89.7% 0.031 86.5)", "tonalRamp": ["oklch(15% 0.012 86.5)", "oklch(25% 0.020 86.5)", "oklch(35% 0.027 86.5)", "oklch(45% 0.031 86.5)", "oklch(55% 0.031 86.5)", "oklch(70% 0.024 86.5)", "oklch(82% 0.014 86.5)", "oklch(95% 0.004 86.5)"] },
+      "sand-hover": { "role": "neutral", "displayName": "Deep Sand", "canonical": "oklch(86.0% 0.037 86.2)", "tonalRamp": ["oklch(15% 0.014 86.2)", "oklch(25% 0.023 86.2)", "oklch(35% 0.033 86.2)", "oklch(45% 0.037 86.2)", "oklch(55% 0.037 86.2)", "oklch(70% 0.028 86.2)", "oklch(82% 0.017 86.2)", "oklch(95% 0.005 86.2)"] },
+      "sage-olive": { "role": "secondary", "displayName": "Sage Olive", "canonical": "oklch(65.8% 0.088 120.5)", "tonalRamp": ["oklch(15% 0.033 120.5)", "oklch(25% 0.055 120.5)", "oklch(35% 0.077 120.5)", "oklch(45% 0.088 120.5)", "oklch(55% 0.088 120.5)", "oklch(70% 0.066 120.5)", "oklch(82% 0.040 120.5)", "oklch(95% 0.011 120.5)"] },
+      "olive-ink": { "role": "neutral", "displayName": "Olive Ink", "canonical": "oklch(26.2% 0.022 119.3)", "tonalRamp": ["oklch(15% 0.008 119.3)", "oklch(25% 0.014 119.3)", "oklch(35% 0.019 119.3)", "oklch(45% 0.022 119.3)", "oklch(55% 0.022 119.3)", "oklch(70% 0.016 119.3)", "oklch(82% 0.010 119.3)", "oklch(95% 0.003 119.3)"] },
+      "antique-gold": { "role": "primary", "displayName": "Antique Gold", "canonical": "oklch(70.9% 0.114 82.6)", "tonalRamp": ["oklch(15% 0.043 82.6)", "oklch(25% 0.071 82.6)", "oklch(35% 0.100 82.6)", "oklch(45% 0.114 82.6)", "oklch(55% 0.114 82.6)", "oklch(70% 0.085 82.6)", "oklch(82% 0.051 82.6)", "oklch(95% 0.014 82.6)"] },
+      "antique-gold-hover": { "role": "primary", "displayName": "Polished Gold", "canonical": "oklch(76.6% 0.110 84.0)", "tonalRamp": ["oklch(15% 0.041 84.0)", "oklch(25% 0.069 84.0)", "oklch(35% 0.096 84.0)", "oklch(45% 0.110 84.0)", "oklch(55% 0.110 84.0)", "oklch(70% 0.082 84.0)", "oklch(82% 0.049 84.0)", "oklch(95% 0.014 84.0)"] },
+      "parchment-muted": { "role": "neutral", "displayName": "Parchment Muted", "canonical": "oklch(83.0% 0.030 89.6)", "tonalRamp": ["oklch(15% 0.011 89.6)", "oklch(25% 0.019 89.6)", "oklch(35% 0.026 89.6)", "oklch(45% 0.030 89.6)", "oklch(55% 0.030 89.6)", "oklch(70% 0.022 89.6)", "oklch(82% 0.013 89.6)", "oklch(95% 0.004 89.6)"] },
+      "ink-muted": { "role": "neutral", "displayName": "Ink Muted", "canonical": "oklch(44.5% 0.034 103.3)", "tonalRamp": ["oklch(15% 0.013 103.3)", "oklch(25% 0.021 103.3)", "oklch(35% 0.030 103.3)", "oklch(45% 0.034 103.3)", "oklch(55% 0.034 103.3)", "oklch(70% 0.026 103.3)", "oklch(82% 0.015 103.3)", "oklch(95% 0.004 103.3)"] },
+      "ink-soft": { "role": "neutral", "displayName": "Ink Soft", "canonical": "oklch(29.3% 0.031 116.1)", "tonalRamp": ["oklch(15% 0.012 116.1)", "oklch(25% 0.019 116.1)", "oklch(35% 0.027 116.1)", "oklch(45% 0.031 116.1)", "oklch(55% 0.031 116.1)", "oklch(70% 0.023 116.1)", "oklch(82% 0.014 116.1)", "oklch(95% 0.004 116.1)"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Hero headline, closing statement and wordmark only; Fraunces with SOFT 100 and WONK 1." },
+      "headline": { "displayName": "Headline", "purpose": "Section headings, 2.25rem rising to 3.25rem from 1024px." },
+      "title": { "displayName": "Title", "purpose": "Gown names, step titles and testimonial quotes." },
+      "lead": { "displayName": "Lead", "purpose": "Intro paragraph under a headline." },
+      "body": { "displayName": "Body", "purpose": "Running text." },
+      "label": { "displayName": "Label", "purpose": "Buttons and small captions; tabular numerals for prices and dates." }
+    },
+    "shadows": [
+      { "name": "brass-bevel", "value": "inset 0 1px 0 color-mix(in oklab, #f2ece0 60%, transparent), inset 0 -1px 0 color-mix(in oklab, #23261a 30%, transparent)", "purpose": "The only shadow in the system: makes the primary button read as polished metal." }
+    ],
+    "motion": [
+      { "name": "ease-reveal", "value": "expo.out (GSAP)", "purpose": "All entrances: line reveals, fade-ups, media wipes." },
+      { "name": "ease-shine", "value": "cubic-bezier(0.5, 0, 0.2, 1)", "purpose": "The shine sweeping across the brass button on hover (500ms out, 1100ms in)." },
+      { "name": "ease-glint", "value": "cubic-bezier(0.45, 0, 0.25, 1)", "purpose": "The nudge light orbiting the header button (2200ms)." },
+      { "name": "header-solid", "value": "0.4s ease", "purpose": "Header background, colour and blur when it turns solid; the phone booking button fades in with it." },
+      { "name": "smooth-scroll", "value": "Lenis", "purpose": "Smooth scrolling and anchor offsets; off with reduced motion, as is every other motion." }
+    ],
+    "breakpoints": [
+      { "name": "wordmark", "value": "375px" },
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1280px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Polished brass pill for the single next action; shine sweeps to the arrow on hover.",
+      "html": "<a class=\"ds-btn-primary\" href=\"#\"><span class=\"ds-btn-shine\" aria-hidden=\"true\"></span>Book a fitting<svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14\"/><path d=\"m12 5 7 7-7 7\"/></svg></a>",
+      "css": ".ds-btn-primary { position: relative; isolation: isolate; overflow: hidden; display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 16px 0 20px; border-radius: 9999px; background: var(--palette-accent, #c49a45) linear-gradient(180deg, rgba(242,236,224,0.45) 0%, transparent 50%, rgba(35,38,26,0.22) 100%); color: var(--palette-dark, #23261a); font-family: var(--font-jost, 'Jost'), system-ui, sans-serif; font-size: 14px; font-weight: 500; letter-spacing: 0.025em; text-decoration: none; box-shadow: inset 0 1px 0 rgba(242,236,224,0.6), inset 0 -1px 0 rgba(35,38,26,0.3); transition: background-color 200ms, transform 200ms; } .ds-btn-primary .ds-btn-shine { position: absolute; inset: 0; z-index: -1; transform: translateX(-110%); background: linear-gradient(100deg, transparent 34%, rgba(242,236,224,0.55) 48%, transparent 62%); transition: transform 500ms cubic-bezier(0.5,0,0.2,1); } .ds-btn-primary:hover { background-color: var(--palette-accent-hover, #d4ad5c); } .ds-btn-primary:hover .ds-btn-shine, .ds-btn-primary:focus-visible .ds-btn-shine { transform: translateX(38%); transition-duration: 1100ms; } .ds-btn-primary:hover svg { transform: translateX(2px); } .ds-btn-primary svg { transition: transform 200ms; } .ds-btn-primary:focus-visible { outline: 2px solid var(--palette-dark, #23261a); outline-offset: 2px; } .ds-btn-primary:active { transform: scale(0.98); }"
+    },
+    {
+      "name": "Primary Button, Large",
+      "kind": "button",
+      "refersTo": "button-primary-lg",
+      "description": "The hero and closing calls to action.",
+      "html": "<a class=\"ds-btn-primary-lg\" href=\"#\">Book a free fitting<svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14\"/><path d=\"m12 5 7 7-7 7\"/></svg></a>",
+      "css": ".ds-btn-primary-lg { display: inline-flex; align-items: center; gap: 10px; height: 56px; padding: 0 24px 0 28px; border-radius: 9999px; background: var(--palette-accent, #c49a45) linear-gradient(180deg, rgba(242,236,224,0.45) 0%, transparent 50%, rgba(35,38,26,0.22) 100%); color: var(--palette-dark, #23261a); font-family: var(--font-jost, 'Jost'), system-ui, sans-serif; font-size: 16px; font-weight: 500; letter-spacing: 0.025em; text-decoration: none; box-shadow: inset 0 1px 0 rgba(242,236,224,0.6), inset 0 -1px 0 rgba(35,38,26,0.3); transition: background-color 200ms, transform 200ms; } .ds-btn-primary-lg:hover { background-color: var(--palette-accent-hover, #d4ad5c); } .ds-btn-primary-lg:focus-visible { outline: 2px solid var(--palette-dark, #23261a); outline-offset: 2px; } .ds-btn-primary-lg:active { transform: scale(0.98); }"
+    },
+    {
+      "name": "Text Link",
+      "kind": "custom",
+      "refersTo": "text-link",
+      "description": "Secondary action: underlined, with the same trailing arrow as the button.",
+      "html": "<a class=\"ds-text-link\" href=\"#\">See all gowns<svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14\"/><path d=\"m12 5 7 7-7 7\"/></svg></a>",
+      "css": ".ds-text-link { display: inline-flex; align-items: center; gap: 6px; color: var(--palette-dark, #23261a); font-family: var(--font-jost, 'Jost'), system-ui, sans-serif; font-weight: 500; text-decoration: underline; text-decoration-color: rgba(35,38,26,0.3); text-underline-offset: 6px; transition: text-decoration-color 150ms; } .ds-text-link:hover { text-decoration-color: currentColor; } .ds-text-link:hover svg { transform: translateX(2px); } .ds-text-link svg { transition: transform 200ms; } .ds-text-link:focus-visible { outline: 2px solid var(--palette-dark, #23261a); outline-offset: 4px; }"
+    },
+    {
+      "name": "Gown Card",
+      "kind": "card",
+      "refersTo": "gown-card",
+      "description": "A paper swatch: 3:4 photograph framed in sand, gown name in Cormorant, price in tabular numerals.",
+      "html": "<a class=\"ds-gown-card\" href=\"#\"><div class=\"ds-gown-photo\"></div><div class=\"ds-gown-meta\"><div class=\"ds-gown-row\"><h3>Aurélie</h3><p>from $290</p></div><p class=\"ds-gown-sub\">Fit and flare, French lace</p></div></a>",
+      "css": ".ds-gown-card { display: flex; flex-direction: column; width: 240px; padding: 8px; border-radius: 24px; background: var(--palette-light-deep, #e6dcc6); color: var(--palette-dark, #23261a); text-decoration: none; transition: background-color 200ms; } .ds-gown-card:hover { background: var(--palette-light-deep-hover, #dcd0b6); } .ds-gown-card:focus-visible { outline: 2px solid var(--palette-dark, #23261a); outline-offset: 2px; } .ds-gown-photo { aspect-ratio: 3 / 4; border-radius: 16px; background: linear-gradient(160deg, #dcd0b6, #cfc7b2); } .ds-gown-meta { padding: 16px 8px 8px; } .ds-gown-row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; } .ds-gown-row h3 { margin: 0; font-family: var(--font-cormorant, 'Cormorant Garamond'), Georgia, serif; font-size: 24px; font-weight: 500; } .ds-gown-row p { margin: 0; font-family: var(--font-jost, 'Jost'), system-ui, sans-serif; font-size: 14px; font-variant-numeric: tabular-nums; } .ds-gown-sub { margin: 4px 0 0; font-family: var(--font-jost, 'Jost'), system-ui, sans-serif; font-size: 14px; color: var(--palette-dark-muted, #57553f); }"
+    },
+    {
+      "name": "Testimonial Card",
+      "kind": "card",
+      "refersTo": "testimonial-card",
+      "description": "A quote in Cormorant with a hanging opening mark, signed with the bride's name, gown and date.",
+      "html": "<figure class=\"ds-quote\"><blockquote>“I cried at the third one, and it was the one.”</blockquote><figcaption><b>Name</b><span> · wore Aurélie, June 2026</span></figcaption></figure>",
+      "css": ".ds-quote { margin: 0; display: flex; flex-direction: column; justify-content: space-between; gap: 40px; width: 320px; padding: 32px; border-radius: 24px; background: var(--palette-light-deep, #e6dcc6); color: var(--palette-dark, #23261a); } .ds-quote blockquote { margin: 0; text-indent: -0.4em; font-family: var(--font-cormorant, 'Cormorant Garamond'), Georgia, serif; font-size: 24px; font-weight: 500; line-height: 1.375; } .ds-quote figcaption { font-family: var(--font-jost, 'Jost'), system-ui, sans-serif; font-size: 14px; } .ds-quote figcaption b { font-weight: 500; } .ds-quote figcaption span { color: var(--palette-dark-muted, #57553f); }"
+    },
+    {
+      "name": "Header (solid)",
+      "kind": "nav",
+      "refersTo": "header-solid",
+      "description": "The fixed header once the hero has gone: blurred parchment bar with the Fraunces wordmark, section links and the brass button.",
+      "html": "<nav class=\"ds-header\"><span class=\"ds-wordmark\">Magic Moment</span><span class=\"ds-links\"><a href=\"#\">Gowns</a><a href=\"#\">How it works</a><a href=\"#\">Reviews</a><a href=\"#\">Visit</a></span></nav>",
+      "css": ".ds-header { display: flex; align-items: center; justify-content: space-between; gap: 32px; padding: 16px 24px; background: color-mix(in oklab, var(--palette-light, #f2ece0) 88%, transparent); backdrop-filter: blur(12px); color: var(--palette-dark, #23261a); } .ds-wordmark { font-family: var(--font-fraunces, 'Fraunces'), Georgia, serif; font-variation-settings: 'SOFT' 100, 'WONK' 1; font-size: 30px; white-space: nowrap; } .ds-links { display: flex; gap: 32px; font-family: var(--font-jost, 'Jost'), system-ui, sans-serif; } .ds-links a { color: inherit; text-decoration: none; text-underline-offset: 8px; text-decoration-color: rgba(35,38,26,0.4); } .ds-links a:hover { text-decoration-line: underline; } .ds-links a:focus-visible { outline: 2px solid var(--palette-dark, #23261a); outline-offset: 4px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Heirloom Atelier",
+    "overview": "Magic Moment should feel like stepping into a dressmaker's studio that has been in the family for decades: parchment walls, a brass rail, a soft 1970s serif on the shop sign, and light that has been through a few photographs already. The mood is warm, vintage and intimate. It is a personal appointment, not a store. Nothing hurries the visitor, and every detail is something you would want to touch.\n\nThe page is spacious and photographic. Large, graded photographs carry the emotion; type is set big and close; surfaces are flat sheets of paper in two tones, with grain over the photographs rather than shadows under the cards. Gold is precious and rare. It is reserved for the one thing the visitor should do next.\n\nThis system must never read as a glossy bridal megastore (white and blush pink, script fonts, sparkle, discount banners), as a generic startup page (icon cards, gradient blobs, metric tiles, sans-serif everything), or as cold luxury minimalism (stark black and white, distant and expensive-feeling).",
+    "keyCharacteristics": [
+      "Parchment, olive ink and sage, with antique gold only on actions.",
+      "Fraunces in its soft, \"wonky\" cut for display; Cormorant Garamond for headings; Jost for reading.",
+      "Flat, tonal surfaces; depth comes from photographs, shading and film grain.",
+      "Fully rounded \"brass\" buttons and generously rounded paper cards.",
+      "Slow, exponential motion that reveals content once and then gets out of the way."
+    ],
+    "rules": [
+      { "name": "The Brass Only Rule", "body": "Antique gold appears only on primary actions. Never on text, borders, icons, highlights or decoration; its rarity is what makes the button the next step.", "section": "colors" },
+      { "name": "The Two Layer Rule", "body": "Raw colour values live only in the palette; components use role names (page, surface, tint, inverse, accent, and their foreground and muted variants). Re-theming means changing the palette, never a component.", "section": "colors" },
+      { "name": "The Measured Contrast Rule", "body": "Every text role keeps at least 4.5:1 against the surface it sits on. Mark dark areas with `data-tone=\"dark\"` so focus rings switch from olive ink to gold.", "section": "colors" },
+      { "name": "The Three Voices Rule", "body": "Fraunces speaks only at display size: the hero, the closing statement, the wordmark. Cormorant names things: sections, gowns, steps, quotes. Jost explains. Never swap their jobs.", "section": "typography" },
+      { "name": "The Close Set Rule", "body": "Display type is set tight (-0.02em, line-height 1) and balanced across lines, with a small negative left indent so its edge lines up optically with the text below.", "section": "typography" },
+      { "name": "The Paper Not Plastic Rule", "body": "Surfaces never float. If something needs to stand apart, give it a different paper tone or a photograph, not a shadow.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do keep antique gold for primary actions only, one per view where possible.",
+      "Do set display type in Fraunces with SOFT 100 and WONK 1, tight (-0.02em, line-height 1) and balanced.",
+      "Do use role colours (page, surface, tint, inverse, accent) in components, never palette values.",
+      "Do shade photographs with olive-ink gradients wherever text sits on them, and add film grain to photographic sections.",
+      "Do keep nested corners concentric: inner radius equals outer radius minus padding.",
+      "Do make motion slow and exponential (expo.out), reveal each element once, and show everything immediately with reduced motion.",
+      "Do mark dark sections with `data-tone=\"dark\"` so focus rings stay visible."
+    ],
+    "donts": [
+      "Don't drift toward a glossy bridal megastore: no white-and-blush pink, script fonts, sparkle or discount banners.",
+      "Don't drift toward a generic startup page: no icon-card grids, gradient blobs, metric tiles or all-sans-serif type.",
+      "Don't drift toward cold luxury minimalism: no stark black and white, no distant, expensive-feeling emptiness.",
+      "Don't put drop shadows on cards or surfaces; the brass bevel is the only shadow.",
+      "Don't use gold for text, borders, icons or decoration.",
+      "Don't use Fraunces below display size other than the wordmark, or Jost for headings."
+    ]
+  }
+}
