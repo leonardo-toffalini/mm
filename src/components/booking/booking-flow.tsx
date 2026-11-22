@@ -34,13 +34,20 @@ const useGownsParam = () => useSyncExternalStore(noop, () => new URLSearchParams
 /**
  * Booking a fitting in three steps: choose a time, how to reach you, confirm.
  * Her chosen gowns stand on the dark band at the top throughout.
- *
- * Mock: there's no booking backend yet, so confirming only shows the
- * confirmation; nothing is sent or stored.
+ * Booked slots come from /api/bookings, and confirming posts the booking there.
  */
 export function BookingFlow() {
   const today = useToday();
-  const days = today ? openDays(today) : null;
+  const [taken, setTaken] = useState<string[] | null>(null);
+  const days = today && taken ? openDays(today, taken) : null;
+  const loadTaken = () =>
+    fetch("/api/bookings")
+      .then((r) => (r.ok ? r.json() : []))
+      .catch(() => []) // still show the calendar; the server rejects a slot that's gone
+      .then(setTaken);
+  useEffect(() => {
+    loadTaken();
+  }, []);
   const param = useGownsParam();
   const { list } = useTryOn();
   const gowns = (param ? param.split(",") : list).map(findGown).filter((g) => g !== undefined);
@@ -49,6 +56,32 @@ export function BookingFlow() {
   const [slot, setSlot] = useState<Slot | null>(null);
   const [week, setWeek] = useState(0);
   const [details, setDetails] = useState<Details>(emptyDetails);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const confirm = async () => {
+    if (sending || !slot) return;
+    setSending(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/bookings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...slot, ...details, gowns: gowns.map((g) => g.slug) }),
+      });
+      if (res.ok) return setStep("done");
+      if (res.status === 409) {
+        setSlot(null);
+        setStep(1);
+        setError("Ezt az időpontot közben valaki lefoglalta. Kérjük, válassz egy másikat.");
+        loadTaken();
+      } else setError(`Nem sikerült elküldeni a foglalást. Próbáld újra, vagy hívj minket: ${studio.phone}.`);
+    } catch {
+      setError(`Nem sikerült elküldeni a foglalást. Ellenőrizd az internetkapcsolatot, vagy hívj minket: ${studio.phone}.`);
+    } finally {
+      setSending(false);
+    }
+  };
 
   // Move focus to the new step's heading, so keyboard and screen-reader users
   // start at the top of it (not on first load).
@@ -110,7 +143,13 @@ export function BookingFlow() {
           <div className={step === 1 ? undefined : "max-w-5xl"}>
             {step === 1 && (
               <StepFrame title="Válassz időpontot" heading={heading} aside={<WeekNav days={days} week={week} onWeek={setWeek} />}>
-                <WeekCalendar days={days} week={week} selected={slot} onSelect={setSlot} />
+                {error && <p role="alert" className="mb-6 text-error">{error}</p>}
+                <WeekCalendar days={days} week={week} selected={slot}
+                  onSelect={(s) => {
+                    setSlot(s);
+                    setError(null);
+                  }}
+                />
                 <Actions>
                   <Button
                     size="lg"
@@ -153,11 +192,12 @@ export function BookingFlow() {
                   </Row>
                 </dl>
                 <Actions>
-                  <Button size="lg" onClick={() => setStep("done")}>
-                    Lefoglalom
+                  <Button size="lg" onClick={confirm} aria-disabled={sending || undefined} className="aria-disabled:opacity-50">
+                    {sending ? "Küldés…" : "Lefoglalom"}
                   </Button>
                   <BackButton onClick={() => setStep(2)} />
                 </Actions>
+                {error && <p role="alert" className="mt-4 text-error">{error}</p>}
               </StepFrame>
             )}
 
@@ -402,8 +442,7 @@ function Field({ id, label, error, className = "", children }: FieldProps) {
   );
 }
 
-// Mock booking: offer the fitting as a calendar file so "Hozzáadom a naptáramhoz"
-// still works without a backend.
+// Offer the booked fitting as a calendar file for "Hozzáadom a naptáramhoz".
 function downloadIcs(slot: Slot) {
   const stamp = (date: string, time: string) => `${date.replaceAll("-", "")}T${time.replace(":", "").padStart(4, "0")}00`;
   const ics = [

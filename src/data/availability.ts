@@ -1,6 +1,7 @@
-// Mock availability until a booking backend exists: fittings run Monday to
-// Saturday, four 90-minute slots a day, and some are shown as already taken.
+// Fittings run Monday to Saturday: four 90-minute slots on weekdays (10–18),
+// one on Saturday (open 10–13). Which ones are booked comes from /api/bookings.
 export const SLOT_TIMES = ["10:00", "11:45", "13:30", "15:15"];
+const SATURDAY_TIMES = ["10:00"];
 export const FITTING_MINUTES = 90;
 
 export type Day = { date: string; slots: { time: string; open: boolean }[] };
@@ -8,8 +9,8 @@ export type Day = { date: string; slots: { time: string; open: boolean }[] };
 const iso = (d: Date) =>
   `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 
-/** The studio's open days (Mon–Sat) from tomorrow up to one month after `today` (YYYY-MM-DD). */
-export function openDays(today: string): Day[] {
+/** The studio's open days (Mon–Sat) from tomorrow up to one month after `today` (YYYY-MM-DD); `taken` holds booked "YYYY-MM-DD HH:MM" slots. */
+export function openDays(today: string, taken: string[] = []): Day[] {
   const start = new Date(`${today}T12:00:00`);
   const end = new Date(start);
   end.setMonth(start.getMonth() + 1);
@@ -21,17 +22,10 @@ export function openDays(today: string): Day[] {
     if (d > end) break;
     if (d.getDay() === 0) continue; // closed Sunday
     const date = iso(d);
-    days.push({ date, slots: SLOT_TIMES.map((time) => ({ time, open: !taken(date, time) })) });
+    const times = d.getDay() === 6 ? SATURDAY_TIMES : SLOT_TIMES;
+    days.push({ date, slots: times.map((time) => ({ time, open: !taken.includes(`${date} ${time}`) })) });
   }
   return days;
-}
-
-// The same slots are always "taken" for a given day, so the calendar doesn't
-// shuffle between visits.
-function taken(date: string, time: string) {
-  let h = 0;
-  for (const c of date + time) h = (h * 31 + c.charCodeAt(0)) >>> 0;
-  return h % 3 === 0;
 }
 
 export const todayISO = () => iso(new Date());
