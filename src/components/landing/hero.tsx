@@ -30,7 +30,7 @@ export function Hero() {
       </div>
 
       <Container data-hero-content className="pt-40 pb-12 lg:pb-16">
-        <h1 data-hero-headline data-intro className="-ml-[0.04em] max-w-5xl text-[3.25rem] font-display leading-none font-normal tracking-[-0.02em] text-balance sm:text-7xl lg:text-[6.5rem]">
+        <h1 data-hero-headline data-intro className="-ml-[0.04em] max-w-5xl text-[2.75rem] min-[375px]:text-[3.25rem] font-display leading-none font-normal tracking-[-0.02em] text-balance sm:text-7xl lg:text-[6.5rem]">
           Kölcsönözhető menyasszonyi ruhák, rád szabva
         </h1>
         <div className="mt-10 flex flex-col gap-8 lg:mt-14 lg:flex-row lg:items-end lg:justify-between">

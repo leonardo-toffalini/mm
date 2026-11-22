@@ -30,12 +30,12 @@ export function SiteHeader({ intro = true, solid = false, book = true }: Props) 
           <Link
             href={routes.home}
             data-logo={intro || undefined}
-            className="-ml-[0.03em] block origin-[0_62%] whitespace-nowrap font-display text-2xl min-[375px]:text-3xl sm:text-4xl"
+            className="-ml-[0.03em] block origin-[0_62%] whitespace-nowrap font-display text-xl min-[375px]:text-[1.625rem] sm:text-4xl"
           >
             Magic Moment
           </Link>
         </div>
-        <nav aria-label="Főmenü" {...fade} className="hidden items-center gap-8 md:flex xl:mr-10 xl:ml-auto">
+        <nav aria-label="Főmenü" {...fade} className="hidden items-center gap-8 lg:flex xl:mr-10 xl:ml-auto">
           {navItems.map((item) => (
             <Link
               key={item.label}
@@ -60,7 +60,7 @@ export function SiteHeader({ intro = true, solid = false, book = true }: Props) 
                 : `[[data-try-on]_&]:hidden ${solid ? "lg:hidden" : ""}`
             }
           >
-            <ButtonLink href={routes.booking} nudge className="whitespace-nowrap">
+            <ButtonLink href={routes.booking} nudge className="whitespace-nowrap max-[374px]:pr-3 max-[374px]:pl-4">
               {/* The full label doesn't fit beside the wordmark on phones. */}
               <span className="sm:hidden">
                 Ruhapróba<span className="sr-only"> foglalása</span>

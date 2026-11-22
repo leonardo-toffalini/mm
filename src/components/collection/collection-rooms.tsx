@@ -167,22 +167,23 @@ function RoomBar({ current, order, onOrder }: BarProps) {
           })}
         </nav>
         <label className="flex items-center gap-2 text-sm">
-          {/* On phones there's no room for the word, so an icon says "sort". */}
+          {/* On phones there's no room for the label or the chosen order, so the
+              select shrinks to an icon button; the native picker still lists them. */}
           <span className="sr-only text-fg-muted sm:not-sr-only">Rendezés</span>
           <span className="relative flex items-center">
-            <ArrowDownUp aria-hidden size={16} strokeWidth={1.75} className="pointer-events-none absolute left-2.5 max-[359px]:hidden sm:hidden" />
+            <ArrowDownUp aria-hidden size={16} strokeWidth={1.75} className="pointer-events-none absolute left-2.5 sm:hidden" />
             <select
               value={order}
               onChange={(e) => onOrder(e.target.value as Order)}
-              className="cursor-pointer appearance-none rounded-full bg-surface py-2 pr-7 pl-3.5 text-[13px] font-medium sm:text-sm min-[360px]:pl-8 text-fg transition-colors hover:bg-surface-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus sm:pr-9 sm:pl-4"
+              className="h-9 w-9 cursor-pointer appearance-none rounded-full bg-surface text-[0px] font-medium text-fg transition-colors sm:h-auto sm:w-auto sm:py-2 sm:text-sm hover:bg-surface-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus sm:pr-9 sm:pl-4"
             >
               {Object.entries(orders).map(([value, label]) => (
-                <option key={value} value={value}>
+                <option key={value} value={value} className="text-sm">
                   {label}
                 </option>
               ))}
             </select>
-            <ChevronDown aria-hidden size={16} strokeWidth={1.75} className="pointer-events-none absolute right-2.5 sm:right-3" />
+            <ChevronDown aria-hidden size={16} strokeWidth={1.75} className="pointer-events-none absolute right-3 max-sm:hidden" />
           </span>
         </label>
       </Container>

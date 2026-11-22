@@ -166,7 +166,7 @@ export function BookingFlow() {
                 <p className="font-serif text-2xl font-medium text-pretty">
                   A szalonban: {studio.address}, {studio.city}
                 </p>
-                <p className="mt-4 max-w-xl text-lead text-pretty text-fg-muted">
+                <p className="mt-4 max-w-xl text-lead text-pretty wrap-anywhere text-fg-muted">
                   A megerősítést elküldjük ide: {details.email}. Legfeljebb {studio.guests} főt hozhatsz magaddal, és ha
                   teheted, hozz egy olyan sarkú cipőt, amilyet a nagy napon viselsz majd.
                 </p>
@@ -195,14 +195,14 @@ const railItem = "w-20 shrink-0 sm:w-28 lg:w-40";
 // an empty dashed place after them while there's room for another.
 function GownRail({ gowns }: { gowns: Gown[] }) {
   return (
-    <div className="flex items-end gap-6">
+    <div className="flex min-w-0 items-end gap-6">
       {!gowns.length && (
         <p className="max-w-xs text-sm text-pretty text-inverse-fg-muted lg:text-right">
           <span className="block">Még nem választottál ruhát?</span>
           <span className="block">Semmi gond, a próbán segítünk.</span>
         </p>
       )}
-      <ul aria-label="A ruháid" className="-mx-6 flex gap-3 overflow-x-auto px-6 pb-1 [scrollbar-width:none] lg:mx-0 lg:px-0">
+      <ul aria-label="A ruháid" className="-mx-6 flex min-w-0 gap-3 overflow-x-auto px-6 pb-1 [scrollbar-width:none] lg:mx-0 lg:px-0">
         {gowns.map((g) => (
           <li key={g.slug} className={railItem}>
             <div className="relative aspect-[3/4] overflow-hidden rounded-card-inner bg-shade">
@@ -217,7 +217,7 @@ function GownRail({ gowns }: { gowns: Gown[] }) {
               <span className="grid aspect-[3/4] place-items-center rounded-card-inner border-2 border-dashed border-inverse-fg/25 text-inverse-fg-muted transition-colors group-hover:border-inverse-fg/60 group-hover:text-inverse-fg">
                 <Plus aria-hidden size={24} strokeWidth={1.5} />
               </span>
-              <span className="mt-2 block font-serif text-base font-medium whitespace-nowrap text-inverse-fg-muted transition-colors group-hover:text-inverse-fg sm:text-xl">
+              <span className="mt-2 block font-serif text-base font-medium text-inverse-fg-muted transition-colors group-hover:text-inverse-fg sm:text-xl">
                 {gowns.length ? "Még egy ruha" : "Válassz ruhát"}
               </span>
             </Link>
@@ -266,7 +266,7 @@ function Row({ label, onChange, changeLabel = "Módosítás", children }: RowPro
   return (
     <div className="grid gap-1 py-5 sm:grid-cols-[10rem_minmax(0,1fr)_auto] sm:gap-6">
       <dt className="text-sm text-fg-muted">{label}</dt>
-      <dd className="text-pretty">{children}</dd>
+      <dd className="text-pretty wrap-anywhere">{children}</dd>
       <dd>
         <button
           type="button"
