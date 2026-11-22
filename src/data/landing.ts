@@ -9,8 +9,8 @@ export const studio = {
   fittingMinutes: 90,
   rentalDays: 5,
   guests: 3,
-  rating: 4.9,
-  reviewCount: 312,
+  rating: 5,
+  reviewCount: 71,
   address: "Király utca 87.",
   city: "1077 Budapest",
   hours: "Hétfő–péntek 10–18, szombat 10–13 óra, bejelentkezéssel",
@@ -42,26 +42,26 @@ export const steps = [
   },
 ];
 
+// Real Google reviews (Maps, November 2026), quoted word for word; longer
+// ones are cut to their most fitting sentences. Dates are approximate:
+// Google only shows "egy hónapja" and the like.
 export const testimonials = [
   {
     quote:
-      "Négy ruhát próbáltam fel, és a harmadiknál elsírtam magam. Mivel rám szabták, olyan volt, mintha mindig is az enyém lett volna.",
-    name: "Zsófia",
-    gown: "Aurélie",
-    date: "2026. június",
+      "Maximálisan elégedett vagyok a szalonnal! Rendkívül figyelmes, segítőkész szolgáltatásban volt részem minden ruhapróbán.",
+    name: "Anna",
+    date: "2026. november",
   },
   {
     quote:
-      "A próba nyugodt és bensőséges volt. Anyukám és a húgom is eljött, és senki sem siettetett minket.",
-    name: "Hanna",
-    gown: "Margot",
-    date: "2025. szeptember",
+      "Már első alkalommal sikerült megtalálnom náluk az álomruhámat a szalagavatómra! Gyönyörű ruhák, hatalmas választék.",
+    name: "Judit",
+    date: "2026. október",
   },
   {
     quote:
-      "Egy kétmillió forintos ruhát viseltem 170 ezer forintért, és most nem porosodik a szekrényemben.",
-    name: "Réka",
-    gown: "Céleste",
-    date: "2026. április",
+      "Több szalonban voltam a ruhakeresés során, de egyben sem találkoztam ilyen barátságos hozzáállással és szinte családias hangulattal.",
+    name: "Lili",
+    date: "2026. szeptember",
   },
 ];

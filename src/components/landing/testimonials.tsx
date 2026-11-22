@@ -7,7 +7,7 @@ export function Testimonials() {
     <section id="reviews" className="scroll-mt-[72px] py-24 lg:py-32">
       <Container>
         <SectionHeading
-          title={`${studio.reviewCount} menyasszony értékelése: ${studio.rating.toLocaleString("hu-HU")} / 5`}
+          title={`${studio.reviewCount} értékelés a Google-on: ${studio.rating.toLocaleString("hu-HU", { minimumFractionDigits: 1 })} / 5`}
         />
         <ul className="mt-12 grid gap-4 md:grid-cols-3">
           {testimonials.map((t) => (
@@ -21,7 +21,7 @@ export function Testimonials() {
                   <span className="font-medium">{t.name}</span>
                   <span className="text-fg-muted">
                     {" "}
-                    · {t.gown}, {t.date}
+                    · Google-értékelés, {t.date}
                   </span>
                 </figcaption>
               </figure>
