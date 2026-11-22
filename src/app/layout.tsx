@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Cormorant_Garamond, Fraunces, Jost } from "next/font/google";
 import "lenis/dist/lenis.css";
 import { IntentPreload } from "@/components/intent-preload";
+import { siteUrl } from "@/lib/routes";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -24,6 +25,8 @@ const fraunces = Fraunces({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
+  openGraph: { siteName: "Magic Moment", locale: "hu_HU", type: "website" },
   title: "Magic Moment – Menyasszonyiruha-kölcsönzés",
   description:
     "Menyasszonyi ruhák kölcsönzése, ingyenes ruhapróbával a szalonban. A ruhába szeress bele, ne az árába.",

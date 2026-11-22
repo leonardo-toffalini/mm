@@ -23,6 +23,7 @@ export async function generateMetadata({ params }: PageProps<"/collection/[slug]
   return {
     title: `${gown.name} – Magic Moment`,
     description: `${gown.silhouette}, méret: ${gown.sizes}. Kölcsönzés ${formatPrice(gown.rentalFrom)}-tól, ingyenes ruhapróbával.`,
+    openGraph: { images: [{ url: gown.image.src, alt: gown.name }] },
   };
 }
 

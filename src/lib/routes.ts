@@ -1,3 +1,5 @@
+export const siteUrl = "https://magicmoment.hu";
+
 export const routes = {
   home: "/",
   collection: "/collection",
