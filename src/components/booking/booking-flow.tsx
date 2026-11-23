@@ -15,11 +15,11 @@ import { TRY_ON_LIMIT, useTryOn } from "@/lib/try-on";
 import { WeekCalendar, WeekNav, type Slot } from "./week-calendar";
 
 type Step = 1 | 2 | 3 | "done";
-type Details = { name: string; email: string; occasion: string; eventDate: string; size: string; notes: string };
+type Details = { name: string; email: string; occasion: string; eventDate: string; size: string; notes: string; website: string };
 
 const steps = ["Időpont", "Elérhetőség", "Ellenőrzés"];
 const occasions = ["Esküvő", "Szalagavató", "Kismama esküvő"];
-const emptyDetails: Details = { name: "", email: "", occasion: "", eventDate: "", size: "", notes: "" };
+const emptyDetails: Details = { name: "", email: "", occasion: "", eventDate: "", size: "", notes: "", website: "" };
 
 // The optional details as one line for the summary: "Esküvő · június 12., péntek · méret: 38".
 const extras = (d: Details) =>
@@ -75,7 +75,8 @@ export function BookingFlow() {
         setStep(1);
         setError("Ezt az időpontot közben valaki lefoglalta. Kérjük, válassz egy másikat.");
         loadTaken();
-      } else setError(`Nem sikerült elküldeni a foglalást. Próbáld újra, vagy hívj minket: ${studio.phone}.`);
+      } else if (res.status === 429) setError(`Túl sok foglalás érkezett innen rövid idő alatt. Kérjük, hívj minket: ${studio.phone}.`);
+      else setError(`Nem sikerült elküldeni a foglalást. Próbáld újra, vagy hívj minket: ${studio.phone}.`);
     } catch {
       setError(`Nem sikerült elküldeni a foglalást. Ellenőrizd az internetkapcsolatot, vagy hívj minket: ${studio.phone}.`);
     } finally {
@@ -367,6 +368,8 @@ function ReachYou({ heading, details, onChange, onBack, onContinue }: ReachProps
             />
           </Field>
         </div>
+        {/* Honeypot: hidden from people and screen readers; bots that fill every field get dropped. */}
+        <input name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" value={details.website} onChange={set("website")} className="absolute -left-[9999px] h-px w-px opacity-0" />
 
         <details open={hasExtras} className="group mt-10 max-w-2xl border-t border-fg/10 pt-6">
           <summary className="cursor-pointer list-none font-medium focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus [&::-webkit-details-marker]:hidden">

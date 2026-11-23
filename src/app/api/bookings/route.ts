@@ -23,7 +23,7 @@ async function db() {
     gowns text[] NOT NULL DEFAULT '{}',
     created_at timestamptz NOT NULL DEFAULT now(),
     UNIQUE (date, time)
-  )`.catch((e) => {
+  )`.then(() => sql`ALTER TABLE bookings ADD COLUMN IF NOT EXISTS ip text`).catch((e) => {
     ready = undefined;
     throw e;
   });
@@ -42,11 +42,16 @@ export async function GET() {
   return Response.json(rows.map((r) => r.slot));
 }
 
+// A real visitor rarely books more than once a day; this caps slot-hogging and email spam.
+const MAX_PER_DAY = 3;
+
 const text = (v: unknown, max: number) => (typeof v === "string" ? v.trim().slice(0, max) : "");
 
 export async function POST(request: Request) {
   const body = await request.json().catch(() => null);
   if (!body || typeof body !== "object") return Response.json({ error: "invalid" }, { status: 400 });
+  // Honeypot filled: pretend it worked so the bot has nothing to adapt to, but save and send nothing.
+  if (text(body.website, 200)) return Response.json({ id: 0 }, { status: 201 });
 
   const date = text(body.date, 10);
   const time = text(body.time, 5);
@@ -61,10 +66,18 @@ export async function POST(request: Request) {
   const bookable = openDays(today()).some((d) => d.date === date && d.slots.some((s) => s.time === time));
   if (!bookable || !name || !/^\S+@\S+\.\S+$/.test(email)) return Response.json({ error: "invalid" }, { status: 400 });
 
+  // Vercel sets x-forwarded-for itself, so the first entry is the real client.
+  const ip = request.headers.get("x-forwarded-for")?.split(",")[0].trim() || null;
   const sql = await db();
+  // shortcut: count-then-insert can let a burst of parallel requests slip one or two past the cap; move to an atomic limiter (e.g. Upstash) if that matters.
+  const [{ recent }] = await sql`
+    SELECT count(*)::int AS recent FROM bookings
+    WHERE created_at > now() - interval '1 day' AND (ip = ${ip} OR lower(email) = lower(${email}))`;
+  if (recent >= MAX_PER_DAY) return Response.json({ error: "rate_limited" }, { status: 429 });
+
   const [row] = await sql`
-    INSERT INTO bookings (date, time, name, email, occasion, event_date, size, notes, gowns)
-    VALUES (${date}, ${time}, ${name}, ${email}, ${occasion}, ${eventDate}, ${size}, ${notes}, ${gowns})
+    INSERT INTO bookings (date, time, name, email, occasion, event_date, size, notes, gowns, ip)
+    VALUES (${date}, ${time}, ${name}, ${email}, ${occasion}, ${eventDate}, ${size}, ${notes}, ${gowns}, ${ip})
     ON CONFLICT (date, time) DO NOTHING
     RETURNING id`;
   if (!row) return Response.json({ error: "taken" }, { status: 409 });
