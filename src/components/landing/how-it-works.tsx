@@ -13,24 +13,36 @@ const icons = [CalendarCheck, Scissors, ShoppingBag];
 // y 260–857, the steps' text ends near 730 and the reviews heading starts near
 // 985; the gown cards above end near 132. The stroke enters from the left in
 // the gap below the steps, rises between steps 2 and 3, loops once beside the
-// heading and leaves off the right edge above it.
+// heading in the shape of a heart and leaves off the right edge above it.
 // Both ends run far past the 1500px-wide, centred stroke box so the line
 // reaches the screen edges even on ultrawide screens (clears ~6000px).
 const wideStroke: [number, number][] = [
   [-2300, 975], [-1500, 962], [-900, 948], [-420, 930], [-150, 915],
   [100, 885], [350, 870], [600, 868], [800, 855],
-  [890, 815], [912, 730], [918, 640], [940, 560], [1030, 470], [1150, 380],
-  [1205, 280], [1200, 190], [1140, 145], [1080, 195], [1085, 310], [1160, 410],
-  [1270, 440], [1370, 395], [1470, 320], [1620, 255], [1900, 215], [2400, 190],
+  [890, 815], [912, 730], [918, 650], [940, 575], [1010, 505],
+  // Heart: in through the bottom tip (1110, 455), up the right side, over
+  // both lobes with a dip at the cleft, down the left side and back out
+  // through the tip, so the crossing is the point of the heart. It fits the
+  // box right of the heading (ends x 821), under the cards (end y 129) and
+  // above step 3 (starts y 550).
+  [1110, 455], [1192, 389], [1249, 316], [1258, 238], [1221, 184], [1167, 176],
+  [1126, 209], [1110, 250], [1094, 209], [1053, 176], [999, 184], [962, 238],
+  [971, 316], [1028, 389], [1110, 455], [1200, 495],
+  [1300, 480], [1400, 420], [1520, 340], [1650, 270], [1900, 215], [2400, 190],
   [3000, 175], [3800, 165],
 ];
 // Tall (below 1280px, anchored to a 400px band on the right): this section
 // spans y 200–1330, the stacked steps end near 1090 and the reviews heading
-// starts near 1426. Same gesture without the loop, which has no room here:
-// in from the far left below the steps, across, then up the right edge.
+// starts near 1426. In from the far left below the steps, a smaller heart in
+// the gap under them (step text ends by y 1167 and the reviews heading starts
+// at 1419 across 320–1279px; at 320px only x 54–346 shows), then up the
+// right edge.
 const tallStroke: [number, number][] = [
-  [-1100, 1270], [-600, 1262], [-200, 1250], [60, 1245], [230, 1225],
-  [330, 1160], [362, 1040], [366, 880], [358, 720], [345, 560], [352, 420],
+  [-1100, 1382], [-600, 1382], [-200, 1382], [60, 1382], [140, 1378],
+  [200, 1360], [247, 1322], [280, 1280], [285, 1235], [263, 1205], [233, 1200],
+  [209, 1219], [200, 1242], [191, 1219], [167, 1200], [137, 1205], [115, 1235],
+  [120, 1280], [153, 1322], [200, 1360], [252, 1385],
+  [318, 1378], [352, 1315], [362, 1200], [362, 1040], [366, 880], [358, 720], [345, 560], [352, 420],
   [372, 300], [350, 170], [320, 40], [310, -120],
 ];
 

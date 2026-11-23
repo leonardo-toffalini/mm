@@ -243,32 +243,36 @@ function parallax() {
 }
 
 // Draws each visible brush stroke from its end (under the gown cards) towards
-// its start as the section scrolls past. Long off-screen runs are skipped by
-// starting and stopping the draw where the line is actually on screen.
+// its start as the page scrolls, each part appearing as it passes a line
+// DRAW_LINE down the viewport, so the drawing keeps pace with the reader on
+// any screen size. Stretches that run across or back up the page (the heart,
+// the long side runs) have no such moment, so they draw at a steady pace.
+const DRAW_LINE = 0.9;
+// Scroll (px) per px of line for those stretches.
+const ACROSS = 0.22;
+
 function strokes() {
   const paths = gsap.utils.toArray<SVGPathElement>("[data-stroke-draw]");
   for (const path of paths) {
     const svg = path.ownerSVGElement;
     if (!svg || getComputedStyle(svg).display === "none") continue;
 
-    // With a "1 1" dash, an offset of -s shows the path from s to its end, so
-    // moving s from the last on-screen point to the first draws it in. Set
-    // directly from scroll progress (Lenis already smooths the scroll); the
-    // on-screen range is re-measured whenever ScrollTrigger refreshes.
-    let [first, last] = [0, 1];
-    const draw = (progress: number) => {
-      path.style.strokeDashoffset = String(-(last - (last - first) * progress));
+    // With a "1 1" dash, an offset of -s shows the path from s to its end.
+    // The schedule is re-measured whenever ScrollTrigger refreshes.
+    let headAt: (scroll: number) => number = () => 1;
+    const draw = (scroll: number) => {
+      path.style.strokeDashoffset = String(-headAt(scroll));
     };
     path.style.strokeDasharray = "1 1";
     ScrollTrigger.create({
-      trigger: svg.parentElement,
-      start: "top 80%",
-      end: "bottom 35%",
+      trigger: svg,
+      start: "top bottom",
+      end: "bottom top",
       onRefresh: (self) => {
-        [first, last] = onScreenRange(path);
-        draw(self.progress);
+        headAt = drawSchedule(path, self.scroll());
+        draw(self.scroll());
       },
-      onUpdate: (self) => draw(self.progress),
+      onUpdate: (self) => draw(self.scroll()),
     });
   }
   // Clear inline dashes when the breakpoint or motion preference changes.
@@ -280,22 +284,52 @@ function strokes() {
   };
 }
 
-// The fractions of the path's length (0 = start, 1 = end) between which it is
-// within the viewport horizontally.
-function onScreenRange(path: SVGPathElement): [number, number] {
+// Maps a scroll position to how far back from its end (as a fraction of its
+// length) the path is drawn. Each point would ideally be drawn as it reaches
+// the draw line, but the head only moves one way and at most 1/ACROSS px of
+// line per px of scroll. Holding points back until they reach the line makes a
+// loop that rises up the page (the heart) draw late, near the top of the
+// screen; pulling them forward makes it draw early, below the fold. The
+// schedule is the average of the two. Parts off the sides of the screen cost
+// nothing and are never drawn.
+function drawSchedule(path: SVGPathElement, scroll: number): (scroll: number) => number {
   const matrix = path.getScreenCTM();
-  if (!matrix) return [0, 1];
+  if (!matrix) return () => 0;
   const length = path.getTotalLength();
-  let first = 1;
-  let last = 0;
+  const points: { s: number; x: number; y: number }[] = [];
   for (let i = 0; i <= 400; i++) {
     const s = i / 400;
-    const point = path.getPointAtLength(s * length);
-    const x = matrix.a * point.x + matrix.c * point.y + matrix.e;
-    if (x >= 0 && x <= innerWidth) {
-      first = Math.min(first, s);
-      last = Math.max(last, s);
-    }
+    const { x, y } = path.getPointAtLength(s * length);
+    points.push({
+      s,
+      x: matrix.a * x + matrix.c * y + matrix.e,
+      y: matrix.b * x + matrix.d * y + matrix.f + scroll,
+    });
   }
-  return first <= last ? [first, last] : [0, 1];
+  const onScreen = (p: { x: number }) => p.x >= 0 && p.x <= innerWidth;
+  const first = points.findIndex(onScreen);
+  if (first === -1) return () => 0;
+  const last = points.findLastIndex(onScreen);
+
+  const lead = DRAW_LINE * innerHeight;
+  const gap = (i: number) => {
+    const [a, b] = [points[i], points[i + 1]];
+    return onScreen(a) ? Math.hypot(a.x - b.x, a.y - b.y) * ACROSS : 0;
+  };
+  // due[k] is when points[last - k] is drawn; never decreasing.
+  const late = [points[last].y - lead];
+  for (let i = last - 1; i >= first; i--) late.push(Math.max(late.at(-1)! + gap(i), points[i].y - lead));
+  const early = [points[first].y - lead];
+  for (let i = first + 1; i <= last; i++) early.push(Math.min(early.at(-1)! - gap(i - 1), points[i].y - lead));
+  early.reverse();
+  const due = late.map((t, k) => (t + early[k]) / 2);
+
+  return (now) => {
+    if (now < due[0]) return points[last].s;
+    const k = due.findIndex((t) => t > now);
+    if (k === -1) return points[first].s;
+    // Between points[last - k + 1] (due[k - 1]) and points[last - k] (due[k]).
+    const f = (now - due[k - 1]) / (due[k] - due[k - 1]);
+    return points[last - k + 1].s - f / 400;
+  };
 }
