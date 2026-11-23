@@ -1,8 +1,11 @@
+import type { Metadata } from "next";
 import { SiteFooter } from "@/components/landing/site-footer";
 import { SiteHeader } from "@/components/landing/site-header";
 import { Container } from "@/components/ui/container";
 import { TextLink } from "@/components/ui/text-link";
 import { routes } from "@/lib/routes";
+
+export const metadata: Metadata = { title: "Ez az oldal nem létezik – Magic Moment" };
 
 // Any address that isn't a page; unknown gowns have their own (collection/[slug]).
 export default function NotFound() {

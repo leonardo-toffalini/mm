@@ -8,6 +8,8 @@ import { routes } from "@/lib/routes";
 export default function GownNotFound() {
   return (
     <>
+      {/* Nested not-found files can't export metadata; React hoists this into the head. */}
+      <title>Ez a ruha nincs a kollekcióban – Magic Moment</title>
       <SiteHeader intro={false} />
       <main id="main" data-tone="dark" className="film-grain relative isolate bg-inverse text-inverse-fg">
         <Container className="flex min-h-[80svh] flex-col justify-center pt-24 pb-16">

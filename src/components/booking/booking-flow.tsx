@@ -116,7 +116,7 @@ export function BookingFlow() {
                   : `Ingyenes, ${studio.fittingMinutes} perces ruhapróba, ahová legfeljebb ${studio.guests} főt hozhatsz. A kiválasztott ruhákat előkészítjük.`}
               </p>
             </div>
-            <GownRail gowns={gowns} />
+            <GownRail gowns={gowns} done={done} />
           </div>
           <ol className="mt-8 grid grid-cols-3 gap-3 text-sm sm:pb-8 lg:mt-6">
             {steps.map((label, i) => {
@@ -238,8 +238,9 @@ export function BookingFlow() {
 const railItem = "w-20 shrink-0 sm:w-28 lg:w-40";
 
 // Her chosen gowns, standing on the dark band like the studio's rail, with
-// an empty dashed place after them while there's room for another.
-function GownRail({ gowns }: { gowns: Gown[] }) {
+// an empty dashed place after them while there's room for another (until
+// she has booked).
+function GownRail({ gowns, done }: { gowns: Gown[]; done: boolean }) {
   return (
     <div className="flex min-w-0 items-end gap-6">
       {!gowns.length && (
@@ -257,7 +258,7 @@ function GownRail({ gowns }: { gowns: Gown[] }) {
             <p className="mt-2 font-serif text-lg font-medium sm:text-xl">{g.name}</p>
           </li>
         ))}
-        {gowns.length < TRY_ON_LIMIT && (
+        {!done && gowns.length < TRY_ON_LIMIT && (
           <li className={railItem}>
             <Link href={routes.collection} className="group block rounded-card-inner focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus">
               <span className="grid aspect-[3/4] place-items-center rounded-card-inner border-2 border-dashed border-inverse-fg/25 text-inverse-fg-muted transition-colors group-hover:border-inverse-fg/60 group-hover:text-inverse-fg">
@@ -423,7 +424,10 @@ function ReachYou({ heading, details, onChange, onBack, onContinue }: ReachProps
               id="consent"
               type="checkbox"
               checked={details.consent}
-              onChange={(e) => onChange({ ...details, consent: e.target.checked })}
+              onChange={(e) => {
+                onChange({ ...details, consent: e.target.checked });
+                if (e.target.checked) setErrors({ ...errors, consent: undefined });
+              }}
               className="mt-0.5 size-5 shrink-0 accent-fg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
               {...errorProps("consent", errors.consent)}
             />
@@ -480,16 +484,36 @@ function Field({ id, label, error, className = "", children }: FieldProps) {
 }
 
 // Offer the booked fitting as a calendar file for "Hozzáadom a naptáramhoz".
+// Times are the studio's (Budapest), whatever timezone her phone is in.
 function downloadIcs(slot: Slot) {
   const stamp = (date: string, time: string) => `${date.replaceAll("-", "")}T${time.replace(":", "").padStart(4, "0")}00`;
   const ics = [
     "BEGIN:VCALENDAR",
     "VERSION:2.0",
     "PRODID:-//Magic Moment//Fitting//EN",
+    // The EU rule: summer time from the last Sunday of March to the last Sunday of October.
+    "BEGIN:VTIMEZONE",
+    "TZID:Europe/Budapest",
+    "BEGIN:DAYLIGHT",
+    "TZOFFSETFROM:+0100",
+    "TZOFFSETTO:+0200",
+    "TZNAME:CEST",
+    "DTSTART:19700329T020000",
+    "RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU",
+    "END:DAYLIGHT",
+    "BEGIN:STANDARD",
+    "TZOFFSETFROM:+0200",
+    "TZOFFSETTO:+0100",
+    "TZNAME:CET",
+    "DTSTART:19701025T030000",
+    "RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU",
+    "END:STANDARD",
+    "END:VTIMEZONE",
     "BEGIN:VEVENT",
     `UID:${slot.date}-${slot.time}@magicmoment`,
-    `DTSTART:${stamp(slot.date, slot.time)}`,
-    `DTEND:${stamp(slot.date, endOf(slot.time))}`,
+    `DTSTAMP:${new Date().toISOString().replace(/[-:]|\.\d+/g, "")}`,
+    `DTSTART;TZID=Europe/Budapest:${stamp(slot.date, slot.time)}`,
+    `DTEND;TZID=Europe/Budapest:${stamp(slot.date, endOf(slot.time))}`,
     "SUMMARY:Ruhapróba – Magic Moment",
     `LOCATION:${studio.address}, ${studio.city}`,
     "END:VEVENT",

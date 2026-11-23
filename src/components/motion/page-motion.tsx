@@ -199,6 +199,7 @@ function reveals() {
   // React keeps alive between routes stuck in the hidden start state.
   return () => {
     const shown = [...items, ...media, ...media.map((el) => el.firstElementChild!)];
+    if (!shown.length) return;
     gsap.killTweensOf(shown);
     gsap.set(shown, { clearProps: "transform,opacity,visibility,clipPath" });
   };
