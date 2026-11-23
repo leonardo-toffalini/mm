@@ -1,4 +1,5 @@
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Fraunces, Jost } from "next/font/google";
 import "lenis/dist/lenis.css";
@@ -59,6 +60,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         {children}
         <IntentPreload />
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

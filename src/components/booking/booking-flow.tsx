@@ -1,5 +1,6 @@
 "use client";
 
+import { track } from "@vercel/analytics";
 import { Plus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -69,7 +70,11 @@ export function BookingFlow() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...slot, ...details, gowns: gowns.map((g) => g.slug) }),
       });
-      if (res.ok) return setStep("done");
+      if (res.ok) {
+        // No personal details: only what helps count bookings by occasion.
+        track("Booking completed", { occasion: details.occasion, gowns: gowns.length });
+        return setStep("done");
+      }
       if (res.status === 409) {
         setSlot(null);
         setStep(1);
