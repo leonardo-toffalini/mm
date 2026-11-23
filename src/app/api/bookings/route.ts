@@ -38,7 +38,12 @@ const today = () => new Date().toLocaleDateString("en-CA", { timeZone: "Europe/B
 export async function GET() {
   await connection();
   const sql = await db();
-  const rows = await sql`SELECT to_char(date, 'YYYY-MM-DD') || ' ' || time AS slot FROM bookings WHERE date > ${today()}`;
+  const [rows] = await Promise.all([
+    sql`SELECT to_char(date, 'YYYY-MM-DD') || ' ' || time AS slot FROM bookings WHERE date > ${today()}`,
+    // Retention promised on the privacy page: a booking is deleted one year after its fitting.
+    // shortcut: runs whenever the booking page loads, not on a schedule; move to a Vercel cron if the page can go unvisited for weeks.
+    sql`DELETE FROM bookings WHERE date < ${today()}::date - interval '1 year'`,
+  ]);
   return Response.json(rows.map((r) => r.slot));
 }
 
@@ -64,7 +69,8 @@ export async function POST(request: Request) {
   const gowns = Array.isArray(body.gowns) ? [...new Set(body.gowns.filter((g: unknown) => typeof g === "string" && findGown(g)))] as string[] : [];
 
   const bookable = openDays(today()).some((d) => d.date === date && d.slots.some((s) => s.time === time));
-  if (!bookable || !name || !/^\S+@\S+\.\S+$/.test(email)) return Response.json({ error: "invalid" }, { status: 400 });
+  // Consent is required; created_at records when it was given.
+  if (!bookable || !name || !/^\S+@\S+\.\S+$/.test(email) || body.consent !== true) return Response.json({ error: "invalid" }, { status: 400 });
 
   // Vercel sets x-forwarded-for itself, so the first entry is the real client.
   const ip = request.headers.get("x-forwarded-for")?.split(",")[0].trim() || null;

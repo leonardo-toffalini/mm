@@ -1,5 +1,7 @@
+import Link from "next/link";
 import { Container } from "@/components/ui/container";
 import { studio } from "@/data/landing";
+import { routes } from "@/lib/routes";
 
 export function SiteFooter() {
   return (
@@ -27,7 +29,15 @@ export function SiteFooter() {
         </address>
       </Container>
       <Container>
-        <p className="mt-16 text-xs">© Magic Moment. Fotók: Unsplash.</p>
+        <p className="mt-16 flex flex-wrap gap-x-6 gap-y-2 text-xs">
+          <span>© Magic Moment. Fotók: Unsplash.</span>
+          <Link href={routes.privacy} className="underline-offset-4 hover:text-inverse-fg hover:underline">
+            Adatvédelem
+          </Link>
+          <Link href={`${routes.privacy}#impresszum`} className="underline-offset-4 hover:text-inverse-fg hover:underline">
+            Impresszum
+          </Link>
+        </p>
       </Container>
     </footer>
   );

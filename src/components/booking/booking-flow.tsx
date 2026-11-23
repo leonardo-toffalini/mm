@@ -16,11 +16,11 @@ import { TRY_ON_LIMIT, useTryOn } from "@/lib/try-on";
 import { WeekCalendar, WeekNav, type Slot } from "./week-calendar";
 
 type Step = 1 | 2 | 3 | "done";
-type Details = { name: string; email: string; occasion: string; eventDate: string; size: string; notes: string; website: string };
+type Details = { name: string; email: string; occasion: string; eventDate: string; size: string; notes: string; website: string; consent: boolean };
 
 const steps = ["Időpont", "Elérhetőség", "Ellenőrzés"];
 const occasions = ["Esküvő", "Szalagavató", "Kismama esküvő"];
-const emptyDetails: Details = { name: "", email: "", occasion: "", eventDate: "", size: "", notes: "", website: "" };
+const emptyDetails: Details = { name: "", email: "", occasion: "", eventDate: "", size: "", notes: "", website: "", consent: false };
 
 // The optional details as one line for the summary: "Esküvő · június 12., péntek · méret: 38".
 const extras = (d: Details) =>
@@ -338,7 +338,7 @@ type ReachProps = {
 // Only a name and an email are needed; everything else is an optional extra
 // about her and the occasion, folded away so it never feels like a sign-up form.
 function ReachYou({ heading, details, onChange, onBack, onContinue }: ReachProps) {
-  const [errors, setErrors] = useState<Partial<Record<"name" | "email", string>>>({});
+  const [errors, setErrors] = useState<Partial<Record<"name" | "email" | "consent", string>>>({});
   const set = (key: keyof Details) => (e: { target: { value: string } }) => onChange({ ...details, [key]: e.target.value });
   const hasExtras = Boolean(details.occasion || details.eventDate || details.size || details.notes);
 
@@ -347,9 +347,11 @@ function ReachYou({ heading, details, onChange, onBack, onContinue }: ReachProps
     const next: typeof errors = {};
     if (!details.name.trim()) next.name = "Add meg a neved.";
     if (!/^\S+@\S+\.\S+$/.test(details.email.trim())) next.email = "Adj meg egy e-mail-címet, ahová a megerősítést küldhetjük.";
+    if (!details.consent) next.consent = "A foglaláshoz el kell fogadnod az adatkezelést.";
     setErrors(next);
     if (next.name) document.getElementById("name")?.focus();
     else if (next.email) document.getElementById("email")?.focus();
+    else if (next.consent) document.getElementById("consent")?.focus();
     else onContinue();
   };
 
@@ -414,6 +416,33 @@ function ReachYou({ heading, details, onChange, onBack, onContinue }: ReachProps
             </Field>
           </div>
         </details>
+
+        <div className="mt-10 max-w-2xl">
+          <label className="flex cursor-pointer gap-3 text-sm leading-relaxed">
+            <input
+              id="consent"
+              type="checkbox"
+              checked={details.consent}
+              onChange={(e) => onChange({ ...details, consent: e.target.checked })}
+              className="mt-0.5 size-5 shrink-0 accent-fg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
+              {...errorProps("consent", errors.consent)}
+            />
+            <span>
+              Elolvastam az{" "}
+              {/* New tab, so the filled-in form isn't lost. */}
+              <a href={routes.privacy} target="_blank" className="underline decoration-current/30 underline-offset-4 hover:decoration-current">
+                adatvédelmi tájékoztatót
+              </a>
+              , és hozzájárulok, hogy a megadott adataimat (a megjegyzésben megadott egészségi adatokat is, például a
+              várandósságot) a ruhapróba szervezéséhez kezeljétek.
+            </span>
+          </label>
+          {errors.consent && (
+            <p id="consent-error" className="mt-2 text-sm text-error">
+              {errors.consent}
+            </p>
+          )}
+        </div>
 
         <Actions>
           <Button size="lg" type="submit">

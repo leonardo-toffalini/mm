@@ -5,4 +5,5 @@ export const routes = {
   collection: "/collection",
   gown: (slug: string) => `/collection/${slug}`,
   booking: "/book",
+  privacy: "/adatvedelem",
 } as const;
