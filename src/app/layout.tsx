@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Fraunces, Jost } from "next/font/google";
 import "lenis/dist/lenis.css";
@@ -57,6 +58,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         </a>
         {children}
         <IntentPreload />
+        <Analytics />
       </body>
     </html>
   );
