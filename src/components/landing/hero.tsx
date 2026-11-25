@@ -35,7 +35,7 @@ export function Hero() {
         </h1>
         <div className="mt-10 flex flex-col gap-8 lg:mt-14 lg:flex-row lg:items-end lg:justify-between">
           <p data-intro="fade" className="max-w-lg text-lead text-pretty text-inverse-fg-muted">
-            Válassz {studio.gownCount} ruhánk közül, próbáld fel őket egy ingyenes, {studio.fittingMinutes} perces
+            Válassz ruháink közül, próbáld fel őket egy ingyenes, {studio.fittingMinutes} perces
             ruhapróbán, a kedvencedet pedig méretre igazítjuk. A kölcsönzés már{" "}
             <span className="tabular-nums">{formatPrice(studio.rentalFrom)}</span>-tól elérhető, a tisztítással együtt.
           </p>
@@ -44,7 +44,7 @@ export function Hero() {
               Gyere el ruhapróbára
             </ButtonLink>
             <TextLink href={routes.collection} className="text-inverse-fg">
-              Mind a {studio.gownCount} ruha
+              Nézd meg az összes ruhát
             </TextLink>
           </div>
         </div>

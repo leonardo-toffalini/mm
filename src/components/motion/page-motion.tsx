@@ -258,13 +258,15 @@ function strokes() {
     const svg = path.ownerSVGElement;
     if (!svg || getComputedStyle(svg).display === "none") continue;
 
-    // With a "1 1" dash, an offset of -s shows the path from s to its end.
+    // With an "L L" dash, an offset of -s*L shows the path from s to its end.
+    // Real lengths, not pathLength: iPad Safari mishandles pathLength dashes.
     // The schedule is re-measured whenever ScrollTrigger refreshes.
+    const length = path.getTotalLength();
     let headAt: (scroll: number) => number = () => 1;
     const draw = (scroll: number) => {
-      path.style.strokeDashoffset = String(-headAt(scroll));
+      path.style.strokeDashoffset = String(-headAt(scroll) * length);
     };
-    path.style.strokeDasharray = "1 1";
+    path.style.strokeDasharray = `${length} ${length}`;
     ScrollTrigger.create({
       trigger: svg,
       start: "top bottom",

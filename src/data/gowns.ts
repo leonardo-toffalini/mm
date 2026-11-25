@@ -120,7 +120,7 @@ export const rooms: Room[] = [
     occasion: "prom",
     name: "Szalagavató",
     gownKind: "szalagavatós ruha",
-    intro: "Szatén, tüll és bő szoknyák a nagy estére, úgy igazítva, hogy egész éjjel táncolhass bennük.",
+    intro: "Szatén, tüll és bő szoknyák a nagy estére, úgy igazítva, hogy egész este táncolhass bennük.",
     image: roomProm, // unsplash.com/photos/7dCbl4BfoRc
     imageAlt: "Báli ruhás barátnők egymás mellett, csuklójukon virágdísszel",
     focus: "50% 85%", // low enough to show the dresses, not just the corsages

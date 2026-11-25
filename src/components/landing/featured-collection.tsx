@@ -2,7 +2,7 @@ import { GownCard } from "@/components/collection/gown-card";
 import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { TextLink } from "@/components/ui/text-link";
-import { featuredGowns, studio } from "@/data/landing";
+import { featuredGowns } from "@/data/landing";
 import { routes } from "@/lib/routes";
 
 export function FeaturedCollection() {
@@ -12,7 +12,7 @@ export function FeaturedCollection() {
       <Container>
         <SectionHeading
           title="Néhány kedvenc a kollekcióból"
-          action={<TextLink href={routes.collection}>Mind a {studio.gownCount} ruha</TextLink>}
+          action={<TextLink href={routes.collection}>Nézd meg az összes ruhát</TextLink>}
         />
         <ul className="mt-12 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
           <li className="col-span-2 lg:row-span-2">

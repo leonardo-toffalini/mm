@@ -16,8 +16,8 @@ type Props = Omit<ComponentProps<"svg">, "viewBox" | "points"> & {
  * through `points`. The curve is computed on the server, so it ships as a
  * single static path.
  *
- * The path is marked `data-stroke-draw` with pathLength 1 so page motion can
- * dash it to draw the stroke in; only the drawn part ever shows, so places
+ * The path is marked `data-stroke-draw` so page motion can dash it to draw the
+ * stroke in; only the drawn part ever shows, so places
  * where the line crosses itself appear only when the line gets there.
  */
 export function BrushStroke({ points, size, width, ...props }: Props) {
@@ -27,7 +27,6 @@ export function BrushStroke({ points, size, width, ...props }: Props) {
       <path
         data-stroke-draw
         d={`M${line.map(([x, y]) => `${x.toFixed(1)} ${y.toFixed(1)}`).join("L")}`}
-        pathLength={1}
         fill="none"
         stroke="currentColor"
         strokeWidth={width}

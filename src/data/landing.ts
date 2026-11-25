@@ -1,10 +1,9 @@
 // Landing page content.
-import { findGown, gowns, gownsIn, type Gown } from "./gowns";
+import { findGown, gownsIn, type Gown } from "./gowns";
 
 export type { Gown };
 
 export const studio = {
-  gownCount: gowns.length,
   rentalFrom: Math.min(...gownsIn("bridal").map((g) => g.rentalFrom)),
   fittingMinutes: 90,
   rentalDays: 5,
