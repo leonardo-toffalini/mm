@@ -1,4 +1,4 @@
-// Mock content for the landing page until a backend exists.
+// Landing page content.
 import { findGown, gowns, gownsIn, type Gown } from "./gowns";
 
 export type { Gown };
@@ -20,7 +20,7 @@ export const studio = {
 };
 
 // The first gown is shown as the large featured card.
-export const featuredGowns: Gown[] = ["seraphine", "aurelie", "celeste", "margot", "odette"].map(
+export const featuredGowns: Gown[] = ["f-2601", "d-2412", "d-2416", "d-2417", "lb-2335"].map(
   (slug) => findGown(slug)!,
 );
 

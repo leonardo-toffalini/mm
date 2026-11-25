@@ -62,11 +62,14 @@ export function CollectionRooms() {
                   // In two columns, a room with an odd count leads with one wide
                   // card so it doesn't end on a lone one.
                   const wide = i === 0 && list.length % 2 === 1;
+                  // A gown also shown here from another room keeps its id and morph there.
+                  const home = gown.occasion === room.occasion;
                   return (
                     // id: the gown page's back link returns to this card.
-                    <li key={gown.slug} id={gown.slug} className={`scroll-mt-[160px] ${wide ? "max-md:col-span-2" : ""}`}>
+                    <li key={gown.slug} id={home ? gown.slug : undefined} className={`scroll-mt-[160px] ${wide ? "max-md:col-span-2" : ""}`}>
                       <GownCard
                         gown={gown}
+                        morph={home}
                         query={orderQuery(order)}
                         sizes={`(min-width: 1280px) 400px, (min-width: 768px) 33vw, ${wide ? "100vw" : "50vw"}`}
                       />

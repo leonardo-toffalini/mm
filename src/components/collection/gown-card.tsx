@@ -13,11 +13,13 @@ type Props = {
   sizes: string;
   /** Appended to the gown link, e.g. the collection's chosen order. */
   query?: string;
+  /** Off for a gown's copy in a second room: morph names must be unique on the page. */
+  morph?: boolean;
 };
 
 // The photo is the card: name, price and fit are set over an olive-ink shade
 // with film grain, like the room openers.
-export function GownCard({ gown, featured = false, sizes, query = "" }: Props) {
+export function GownCard({ gown, featured = false, sizes, query = "", morph = true }: Props) {
   return (
     <Link
       href={routes.gown(gown.slug) + query}
@@ -25,7 +27,7 @@ export function GownCard({ gown, featured = false, sizes, query = "" }: Props) {
       className={`group @container film-grain relative isolate flex h-full flex-col justify-end overflow-hidden rounded-card bg-inverse text-inverse-fg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus ${featured ? "aspect-[3/4] lg:aspect-auto" : "aspect-[3/4]"}`}
     >
       {/* The photo carries over into the gown page's stage, and back. */}
-      <ViewTransition name={`gown-${gown.slug}`} share="gown-morph" default="none">
+      <ViewTransition name={morph ? `gown-${gown.slug}` : undefined} share="gown-morph" default="none">
         <div data-reveal="media" className="absolute inset-0 -z-10 overflow-hidden rounded-card">
           {/* Taller than the frame so the parallax drift never shows an edge. */}
           <div data-parallax className="absolute inset-x-0 -inset-y-[8%]">

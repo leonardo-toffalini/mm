@@ -1,22 +1,30 @@
-// Mock collection until a backend exists: names, prices and sizes are
-// placeholders. Photos are from Unsplash (free to use under the Unsplash
-// License); the source of each is noted beside it.
+// The salon's real Kotapska gowns, named by their catalogue code. Photos are
+// from kotapska.com (used with permission); each gown's full set is in
+// src/assets/images/gowns/<code>/, only the first is shown for now.
+// shortcut: prices and sizes are placeholders, replace with the salon's real ones.
+// Room photos are from Unsplash (free to use under the Unsplash License).
 import type { StaticImageData } from "next/image";
-import beachBride from "@/assets/images/beach-bride.jpg";
-import gownBed from "@/assets/images/gown-bed.jpg";
-import gownHanger from "@/assets/images/gown-hanger.jpg";
-import gownLaceMermaid from "@/assets/images/gown-lace-mermaid.jpg";
-import gownLaceSleeves from "@/assets/images/gown-lace-sleeves.jpg";
-import gownMannequin from "@/assets/images/gown-mannequin.jpg";
-import gownMirror from "@/assets/images/gown-mirror.jpg";
-import gownOffShoulder from "@/assets/images/gown-off-shoulder.jpg";
-import gownSatinAline from "@/assets/images/gown-satin-aline.jpg";
-import maternityEmpire from "@/assets/images/maternity-empire.jpg";
-import maternityLace from "@/assets/images/maternity-lace.jpg";
-import maternityWhite from "@/assets/images/maternity-white.jpg";
-import promLilac from "@/assets/images/prom-lilac-ballgown.jpg";
-import promPink from "@/assets/images/prom-pink-tulle.jpg";
-import promSlip from "@/assets/images/prom-slip.jpg";
+import lb2303 from "@/assets/images/gowns/2303/2303_1.jpg";
+import lb2306 from "@/assets/images/gowns/2306/2306_1.jpg";
+import lb2308 from "@/assets/images/gowns/2308/2308_1.jpg";
+import lb2309 from "@/assets/images/gowns/2309/2309_1.jpg";
+import lb2311 from "@/assets/images/gowns/2311/2311_1.jpg";
+import lb2314 from "@/assets/images/gowns/2314/2314_1.jpg";
+import lb2335 from "@/assets/images/gowns/2335/2335_1.jpg";
+import d2404 from "@/assets/images/gowns/2404/2404_1.jpg";
+import d2409 from "@/assets/images/gowns/2409/2409_1.jpg";
+import d2410 from "@/assets/images/gowns/2410/2410_1.jpg";
+import d2412 from "@/assets/images/gowns/2412/2412_1.jpg";
+import d2416 from "@/assets/images/gowns/2416/2416_1.jpg";
+import d2417 from "@/assets/images/gowns/2417/2417_1.jpg";
+import d2422 from "@/assets/images/gowns/2422/2422_1.jpg";
+import d2423 from "@/assets/images/gowns/2423/2423_1.jpg";
+import d2430 from "@/assets/images/gowns/2430/2430_1.jpg";
+import d2433 from "@/assets/images/gowns/2433/2433_1.jpg";
+import d2434 from "@/assets/images/gowns/2434/2434_1.jpg";
+import d2440 from "@/assets/images/gowns/2440/2440_1.jpg";
+import lac2519 from "@/assets/images/gowns/2519/2519_1.jpg";
+import f2601 from "@/assets/images/gowns/2601/2601_1.jpg";
 import roomBridal from "@/assets/images/room-bridal.jpg";
 import roomMaternity from "@/assets/images/room-maternity.jpg";
 import roomProm from "@/assets/images/room-prom.jpg";
@@ -33,6 +41,8 @@ export type Gown = {
   image: StaticImageData;
   /** CSS object-position, for photos whose subject isn't centred. */
   focus?: string;
+  /** A second room the gown is also shown in. */
+  alsoIn?: Occasion;
 };
 
 export type Room = {
@@ -77,148 +87,35 @@ export const rooms: Room[] = [
   },
 ];
 
+const bridal = { occasion: "bridal", sizes: "34–46", rentalFrom: 150_000 } as const;
+const prom = { occasion: "prom", sizes: "32–44", rentalFrom: 90_000 } as const;
+const maternity = { occasion: "maternity", alsoIn: "bridal", sizes: "34–50", rentalFrom: 130_000 } as const;
+
 export const gowns: Gown[] = [
-  {
-    slug: "seraphine",
-    name: "Séraphine",
-    occasion: "bridal",
-    silhouette: "Hercegnős fazon, katedrális uszállyal",
-    sizes: "34–48",
-    rentalFrom: 190_000,
-    image: gownBed,
-  },
-  {
-    slug: "aurelie",
-    name: "Aurélie",
-    occasion: "bridal",
-    silhouette: "Trombita fazon, francia csipke",
-    sizes: "32–46",
-    rentalFrom: 145_000,
-    image: gownMirror,
-  },
-  {
-    slug: "celeste",
-    name: "Céleste",
-    occasion: "bridal",
-    silhouette: "Sellő fazon, gyöngyhímzéses tüll",
-    sizes: "34–44",
-    rentalFrom: 170_000,
-    image: gownHanger,
-  },
-  {
-    slug: "margot",
-    name: "Margot",
-    occasion: "bridal",
-    silhouette: "Pánt nélküli, egyenes vonalú krepp",
-    sizes: "32–50",
-    rentalFrom: 130_000,
-    image: gownMannequin,
-  },
-  {
-    slug: "odette",
-    name: "Odette",
-    occasion: "bridal",
-    silhouette: "Nyitott hátú, A-vonalú, puha tüll",
-    sizes: "34–48",
-    rentalFrom: 155_000,
-    image: beachBride,
-  },
-  {
-    slug: "juliette",
-    name: "Juliette",
-    occasion: "bridal",
-    silhouette: "Pánt nélküli, A-vonalú szatén",
-    sizes: "32–48",
-    rentalFrom: 165_000,
-    image: gownSatinAline, // unsplash.com/photos/HJWLIFZfozg
-  },
-  {
-    slug: "isadora",
-    name: "Isadora",
-    occasion: "bridal",
-    silhouette: "Csipkés sellő fazon, rövid uszállyal",
-    sizes: "34–46",
-    rentalFrom: 210_000,
-    image: gownLaceMermaid, // unsplash.com/photos/0kd8P7rYk0A
-  },
-  {
-    slug: "rosalind",
-    name: "Rosalind",
-    occasion: "bridal",
-    silhouette: "Ejtett vállú csipke, bő szoknyarész",
-    sizes: "32–50",
-    rentalFrom: 150_000,
-    image: gownOffShoulder, // unsplash.com/photos/so48cPZInjQ
-    focus: "50% 25%",
-  },
-  {
-    slug: "colette",
-    name: "Colette",
-    occasion: "bridal",
-    silhouette: "Hosszú ujjú, testhez simuló csipke",
-    sizes: "34–48",
-    rentalFrom: 180_000,
-    image: gownLaceSleeves, // unsplash.com/photos/j4__wyKtjJk
-  },
-  {
-    slug: "lavande",
-    name: "Lavande",
-    occasion: "prom",
-    silhouette: "Levendulaszínű, bő szoknyás, virágrátétekkel",
-    sizes: "32–46",
-    rentalFrom: 110_000,
-    image: promLilac, // unsplash.com/photos/1N3L5vzgtxw
-  },
-  {
-    slug: "camille",
-    name: "Camille",
-    occasion: "prom",
-    silhouette: "Púderrózsaszín tüll, ejtett vállal",
-    sizes: "32–48",
-    rentalFrom: 90_000,
-    image: promPink, // unsplash.com/photos/uGViIpoEEoE
-  },
-  {
-    slug: "iris",
-    name: "Iris",
-    occasion: "prom",
-    silhouette: "Ferdén szabott, kombiné fazonú szatén",
-    sizes: "32–44",
-    rentalFrom: 70_000,
-    image: promSlip, // unsplash.com/photos/kyGHtudTPiw
-    focus: "52% 60%",
-  },
-  {
-    slug: "elodie",
-    name: "Élodie",
-    occasion: "maternity",
-    silhouette: "Empire vonalú csipke midiruha",
-    sizes: "34–50",
-    rentalFrom: 140_000,
-    image: maternityLace, // unsplash.com/photos/xdWc2cX_U8I
-    focus: "62% 50%",
-  },
-  {
-    slug: "clemence",
-    name: "Clémence",
-    occasion: "maternity",
-    silhouette: "Átlapolt sifon, harangujjal",
-    sizes: "34–52",
-    rentalFrom: 125_000,
-    image: maternityWhite, // unsplash.com/photos/wFKoYkJxjxM
-  },
-  {
-    slug: "noemie",
-    name: "Noémie",
-    occasion: "maternity",
-    silhouette: "Rakott, empire vonalú ruha",
-    sizes: "36–52",
-    rentalFrom: 120_000,
-    image: maternityEmpire, // unsplash.com/photos/b6nm9mLAiL8
-  },
+  { ...bridal, slug: "f-2601", name: "F 2601", silhouette: "Mély kivágású csipke felsőrész, tüllszoknya uszállyal", image: f2601 },
+  { ...bridal, slug: "d-2412", name: "D 2412", silhouette: "Ejtett vállú, virágrátétes A-vonalú tüll", image: d2412 },
+  { ...bridal, slug: "lac-2519", name: "LAC 2519", silhouette: "Csipkés felsőrész, könnyed tüllszoknya", image: lac2519 },
+  { ...bridal, slug: "d-2404", name: "D 2404", silhouette: "Csipkés sellő fazon, mély kivágással", image: d2404 },
+  { ...bridal, slug: "d-2409", name: "D 2409", silhouette: "Vékony pántos csipkefűző, A-vonalú tüll", image: d2409 },
+  { ...bridal, slug: "d-2410", name: "D 2410", silhouette: "Szívkivágású fűző, virágrátétes tüll", image: d2410 },
+  { ...bridal, slug: "d-2416", name: "D 2416", silhouette: "Vékony pántos, mély V-kivágású szatén A-vonal", image: d2416 },
+  { ...bridal, slug: "d-2417", name: "D 2417", silhouette: "Magas nyakú, hosszú ujjú csipke, tüllszoknya", image: d2417 },
+  { ...bridal, slug: "d-2422", name: "D 2422", silhouette: "Fodros vállú, mély V-kivágású A-vonal", image: d2422 },
+  { ...bridal, slug: "d-2423", name: "D 2423", silhouette: "Rövid csipkeujjú, mély V-kivágású A-vonal", image: d2423 },
+  { ...bridal, slug: "d-2440", name: "D 2440", silhouette: "Háromnegyedes csipkeujjú hercegnős fazon", image: d2440 },
+  { ...bridal, slug: "d-2430", name: "D 2430", silhouette: "Rövid csipkeujjú, bő tüllszoknya", image: d2430 },
+  { ...bridal, slug: "d-2433", name: "D 2433", silhouette: "Mély V-kivágású csipke, lágy esésű A-vonal", image: d2433 },
+  { ...bridal, slug: "d-2434", name: "D 2434", silhouette: "Vékony pántos csipkefűző, hercegnős tüll", image: d2434 },
+  { ...bridal, slug: "lb-2335", name: "LB 2335", silhouette: "Hercegnős fazon, csipkés felsőrész áttetsző ujjakkal", image: lb2335 },
+  { ...prom, slug: "lb-2303", name: "LB 2303", silhouette: "Csipkés felsőrész, A-vonalú tüllszoknya", image: lb2303 },
+  { ...prom, slug: "lb-2306", name: "LB 2306", silhouette: "V-nyakú csipke felsőrész, könnyű tüllszoknya", image: lb2306 },
+  { ...prom, slug: "lb-2309", name: "LB 2309", silhouette: "Széles pántos csipke felsőrész, A-vonalú tüll", image: lb2309 },
+  { ...prom, slug: "lb-2308", name: "LB 2308", silhouette: "Mély V-kivágás, csipkerátétes tüll uszállyal", image: lb2308 },
+  { ...maternity, slug: "lb-2311", name: "LB 2311", silhouette: "Rövid csipkeujjú, A-vonalú csipkeruha", image: lb2311 },
+  { ...maternity, slug: "lb-2314", name: "LB 2314", silhouette: "V-nyakú, csipkés A-vonalú ruha", image: lb2314 },
 ];
 
-export const gownsIn = (occasion: Occasion) => gowns.filter((g) => g.occasion === occasion);
+export const gownsIn = (occasion: Occasion) => gowns.filter((g) => g.occasion === occasion || g.alsoIn === occasion);
 
 export const orders = {
   featured: "Ajánlott",
